@@ -379,3 +379,6 @@ export function SubstitutePanel({
     </div>
   );
 }
+
+export default SubstitutePanel;
+

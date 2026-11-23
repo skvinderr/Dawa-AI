@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslation } from "@/lib/i18n";
 import { LanguageToggle } from "./LanguageToggle";
 import { RoleSwitcher } from "./RoleSwitcher";
+import { SavingsModal } from "./SavingsModal";
 import {
   Activity,
   Search,
@@ -17,24 +18,41 @@ import {
   BarChart3,
   Store,
   MapPin,
-  ClipboardList
+  ClipboardList,
+  TrendingDown,
+  User,
 } from "lucide-react";
 
 export function Navbar() {
   const { t, language, role } = useTranslation();
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [savingsModalOpen, setSavingsModalOpen] = useState(false);
+  const [lifetimeSavings, setLifetimeSavings] = useState<number>(1240);
+
+  useEffect(() => {
+    fetch("/api/user/savings")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.lifetimeSavings) {
+          setLifetimeSavings(data.lifetimeSavings);
+        }
+      })
+      .catch((err) => console.warn("Failed to load savings badge:", err));
+  }, []);
 
   const citizenNav = [
+    { href: "/citizen", label: "Citizen Hub", icon: User },
     { href: "/search", label: t("nav.search"), icon: Search },
     { href: "/prescription", label: t("nav.prescription"), icon: FileText },
-    { href: "/schemes", label: t("nav.schemes"), icon: ShieldAlert },
     { href: "/orders", label: t("nav.orders"), icon: ClipboardList },
+    { href: "/schemes", label: t("nav.schemes"), icon: ShieldAlert },
     { href: "/impact", label: t("nav.impact"), icon: BarChart3 },
   ];
 
   const shopkeeperNav = [
     { href: "/shop/dashboard", label: "Inventory Dashboard", icon: Store },
+    { href: "/shop/orders", label: "Citizen Holds & Orders", icon: ClipboardList },
     { href: "/shop/upload-bill", label: "Upload Stock / Bill", icon: FileText },
     { href: "/search", label: "Check UP Price Index", icon: Search },
   ];
@@ -96,14 +114,37 @@ export function Navbar() {
             })}
           </nav>
 
-          {/* Actions: Role Switcher & Language Toggle */}
+          {/* Actions: Lifetime Savings Chip, Role Switcher & Language Toggle */}
           <div className="hidden md:flex items-center gap-3">
+            {role === "citizen" && (
+              <button
+                type="button"
+                onClick={() => setSavingsModalOpen(true)}
+                className="group inline-flex items-center gap-1.5 px-3 py-1.5 rounded-2xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-300/80 text-emerald-900 text-xs sm:text-sm font-extrabold shadow-xs transition-all active:scale-95"
+                title="View your lifetime medicine savings breakdown"
+              >
+                <div className="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <TrendingDown className="w-3.5 h-3.5 stroke-[2.5]" />
+                </div>
+                <span>₹ {lifetimeSavings.toLocaleString("en-IN")} saved</span>
+              </button>
+            )}
             <RoleSwitcher />
             <LanguageToggle />
           </div>
 
           {/* Mobile hamburger button */}
           <div className="flex md:hidden items-center gap-2">
+            {role === "citizen" && (
+              <button
+                type="button"
+                onClick={() => setSavingsModalOpen(true)}
+                className="inline-flex items-center gap-1 px-2 py-1 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs font-bold"
+              >
+                <TrendingDown className="w-3 h-3 text-emerald-600" />
+                <span>₹{lifetimeSavings}</span>
+              </button>
+            )}
             <LanguageToggle />
             <button
               type="button"
@@ -153,6 +194,9 @@ export function Navbar() {
           </div>
         </div>
       )}
+
+      {/* Lifetime Savings Modal */}
+      <SavingsModal isOpen={savingsModalOpen} onClose={() => setSavingsModalOpen(false)} />
     </header>
   );
 }

@@ -134,342 +134,342 @@ async function main() {
     ownerName: string;
     openHours: string;
   }> = [
-    // 6 Jan Aushadhi Kendras
-    {
-      name: "PM Jan Aushadhi Kendra - Hazratganj",
-      type: StoreType.JAN_AUSHADHI,
-      address: "Shop 12, SPM Civil Hospital Complex, Park Road, Hazratganj",
-      area: "Hazratganj",
-      lat: 26.8528,
-      lng: 80.9463,
-      phone: "+91 94150 88001",
-      ownerName: "Dr. Sandeep Tandon",
-      openHours: "08:00 AM - 10:00 PM",
-    },
-    {
-      name: "PM Jan Aushadhi Kendra - Gomti Nagar",
-      type: StoreType.JAN_AUSHADHI,
-      address: "Manoj Pandey Chowk, Near Patrakarpuram, Gomti Nagar",
-      area: "Gomti Nagar",
-      lat: 26.8504,
-      lng: 80.9995,
-      phone: "+91 94150 88002",
-      ownerName: "Dr. Anil Srivastava",
-      openHours: "08:30 AM - 09:30 PM",
-    },
-    {
-      name: "PM Jan Aushadhi Kendra - Chowk Medical Market",
-      type: StoreType.JAN_AUSHADHI,
-      address: "Shop 4, Phoolwali Gali, Near Chowk Chauraha",
-      area: "Chowk",
-      lat: 26.8682,
-      lng: 80.9125,
-      phone: "+91 94150 88003",
-      ownerName: "Mohd. Tariq Siddiqui",
-      openHours: "09:00 AM - 10:00 PM",
-    },
-    {
-      name: "PM Jan Aushadhi Kendra - Alambagh",
-      type: StoreType.JAN_AUSHADHI,
-      address: "Plot 18, Opp. Alambagh Bus Terminal, VIP Road",
-      area: "Alambagh",
-      lat: 26.8152,
-      lng: 80.9024,
-      phone: "+91 94150 88004",
-      ownerName: "Gurpreet Singh",
-      openHours: "08:00 AM - 10:30 PM",
-    },
-    {
-      name: "PM Jan Aushadhi Kendra - Aliganj Sector Q",
-      type: StoreType.JAN_AUSHADHI,
-      address: "Q-Block Commercial Complex, Sector Q, Aliganj",
-      area: "Aliganj",
-      lat: 26.8925,
-      lng: 80.9412,
-      phone: "+91 94150 88005",
-      ownerName: "Poonam Sharma",
-      openHours: "08:30 AM - 09:00 PM",
-    },
-    {
-      name: "PM Jan Aushadhi Kendra - Indira Nagar Munshipulia",
-      type: StoreType.JAN_AUSHADHI,
-      address: "Near Munshipulia Metro Station, Sector 14, Indira Nagar",
-      area: "Indira Nagar",
-      lat: 26.8845,
-      lng: 80.9856,
-      phone: "+91 94150 88006",
-      ownerName: "Alok Rastogi",
-      openHours: "08:00 AM - 10:00 PM",
-    },
+      // 6 Jan Aushadhi Kendras
+      {
+        name: "PM Jan Aushadhi Kendra - Hazratganj",
+        type: StoreType.JAN_AUSHADHI,
+        address: "Shop 12, SPM Civil Hospital Complex, Park Road, Hazratganj",
+        area: "Hazratganj",
+        lat: 26.8528,
+        lng: 80.9463,
+        phone: "+91 94150 88001",
+        ownerName: "Dr. Sandeep Tandon",
+        openHours: "08:00 AM - 10:00 PM",
+      },
+      {
+        name: "PM Jan Aushadhi Kendra - Gomti Nagar",
+        type: StoreType.JAN_AUSHADHI,
+        address: "Manoj Pandey Chowk, Near Patrakarpuram, Gomti Nagar",
+        area: "Gomti Nagar",
+        lat: 26.8504,
+        lng: 80.9995,
+        phone: "+91 94150 88002",
+        ownerName: "Dr. Anil Srivastava",
+        openHours: "08:30 AM - 09:30 PM",
+      },
+      {
+        name: "PM Jan Aushadhi Kendra - Chowk Medical Market",
+        type: StoreType.JAN_AUSHADHI,
+        address: "Shop 4, Phoolwali Gali, Near Chowk Chauraha",
+        area: "Chowk",
+        lat: 26.8682,
+        lng: 80.9125,
+        phone: "+91 94150 88003",
+        ownerName: "Mohd. Tariq Siddiqui",
+        openHours: "09:00 AM - 10:00 PM",
+      },
+      {
+        name: "PM Jan Aushadhi Kendra - Alambagh",
+        type: StoreType.JAN_AUSHADHI,
+        address: "Plot 18, Opp. Alambagh Bus Terminal, VIP Road",
+        area: "Alambagh",
+        lat: 26.8152,
+        lng: 80.9024,
+        phone: "+91 94150 88004",
+        ownerName: "Gurpreet Singh",
+        openHours: "08:00 AM - 10:30 PM",
+      },
+      {
+        name: "PM Jan Aushadhi Kendra - Aliganj Sector Q",
+        type: StoreType.JAN_AUSHADHI,
+        address: "Q-Block Commercial Complex, Sector Q, Aliganj",
+        area: "Aliganj",
+        lat: 26.8925,
+        lng: 80.9412,
+        phone: "+91 94150 88005",
+        ownerName: "Poonam Sharma",
+        openHours: "08:30 AM - 09:00 PM",
+      },
+      {
+        name: "PM Jan Aushadhi Kendra - Indira Nagar Munshipulia",
+        type: StoreType.JAN_AUSHADHI,
+        address: "Near Munshipulia Metro Station, Sector 14, Indira Nagar",
+        area: "Indira Nagar",
+        lat: 26.8845,
+        lng: 80.9856,
+        phone: "+91 94150 88006",
+        ownerName: "Alok Rastogi",
+        openHours: "08:00 AM - 10:00 PM",
+      },
 
-    // 2 Hospital Pharmacies (24 Hours Open)
-    {
-      name: "KGMU Trauma Centre Hospital Pharmacy",
-      type: StoreType.HOSPITAL,
-      address: "Shah Mina Road, King George Medical University, Chowk",
-      area: "Chowk",
-      lat: 26.8715,
-      lng: 80.9142,
-      phone: "+91 522 2257540",
-      ownerName: "KGMU Dispensary Board",
-      openHours: "24 Hours Open",
-    },
-    {
-      name: "Dr. Ram Manohar Lohia Hospital Pharmacy",
-      type: StoreType.HOSPITAL,
-      address: "Vibhuti Khand, Gomti Nagar, Lucknow",
-      area: "Gomti Nagar",
-      lat: 26.8623,
-      lng: 81.0028,
-      phone: "+91 522 6692000",
-      ownerName: "RMLIMS Hospital Trust",
-      openHours: "24 Hours Open",
-    },
+      // 2 Hospital Pharmacies (24 Hours Open)
+      {
+        name: "KGMU Trauma Centre Hospital Pharmacy",
+        type: StoreType.HOSPITAL,
+        address: "Shah Mina Road, King George Medical University, Chowk",
+        area: "Chowk",
+        lat: 26.8715,
+        lng: 80.9142,
+        phone: "+91 522 2257540",
+        ownerName: "KGMU Dispensary Board",
+        openHours: "24 Hours Open",
+      },
+      {
+        name: "Dr. Ram Manohar Lohia Hospital Pharmacy",
+        type: StoreType.HOSPITAL,
+        address: "Vibhuti Khand, Gomti Nagar, Lucknow",
+        area: "Gomti Nagar",
+        lat: 26.8623,
+        lng: 81.0028,
+        phone: "+91 522 6692000",
+        ownerName: "RMLIMS Hospital Trust",
+        openHours: "24 Hours Open",
+      },
 
-    // 22 Private Pharmacies across all key areas
-    {
-      name: "Sanjeevani Medicos & Healthcare",
-      type: StoreType.PRIVATE,
-      address: "MG Marg, Opposite GPO, Hazratganj",
-      area: "Hazratganj",
-      lat: 26.8505,
-      lng: 80.9442,
-      phone: "+91 94150 11001",
-      ownerName: "Rajesh Kumar Gupta",
-      openHours: "08:00 AM - 11:00 PM",
-    },
-    {
-      name: "Apollo Pharmacy - Hazratganj",
-      type: StoreType.PRIVATE,
-      address: "Sapru Marg, Near Prem Motors, Hazratganj",
-      area: "Hazratganj",
-      lat: 26.8541,
-      lng: 80.9485,
-      phone: "+91 94150 11002",
-      ownerName: "Apollo Health Co.",
-      openHours: "24 Hours Open",
-    },
-    {
-      name: "MedPlus Chemist - Hazratganj",
-      type: StoreType.PRIVATE,
-      address: "Shahnajaf Road, Near Sahara Ganj Mall, Hazratganj",
-      area: "Hazratganj",
-      lat: 26.8532,
-      lng: 80.9521,
-      phone: "+91 94150 11003",
-      ownerName: "Deepak Mehra",
-      openHours: "07:30 AM - 11:30 PM",
-    },
-    {
-      name: "City Chemist & Surgical - Patrakarpuram",
-      type: StoreType.PRIVATE,
-      address: "Main Market, Patrakarpuram Crossing, Gomti Nagar",
-      area: "Gomti Nagar",
-      lat: 26.8492,
-      lng: 80.9982,
-      phone: "+91 94150 11004",
-      ownerName: "Vivek Saxena",
-      openHours: "08:00 AM - 11:00 PM",
-    },
-    {
-      name: "Wellness Forever 24x7 - Gomti Nagar",
-      type: StoreType.PRIVATE,
-      address: "Vipul Khand 3, Near Hahnemann Chauraha, Gomti Nagar",
-      area: "Gomti Nagar",
-      lat: 26.8421,
-      lng: 80.9954,
-      phone: "+91 94150 11005",
-      ownerName: "Nitin Agarwal",
-      openHours: "24 Hours Open",
-    },
-    {
-      name: "Avadh Medical Store - Vivek Khand",
-      type: StoreType.PRIVATE,
-      address: "Shop 7, Shopping Center, Vivek Khand 2, Gomti Nagar",
-      area: "Gomti Nagar",
-      lat: 26.8585,
-      lng: 81.0112,
-      phone: "+91 94150 11006",
-      ownerName: "Mahesh Chandra",
-      openHours: "08:30 AM - 10:30 PM",
-    },
-    {
-      name: "Aliganj Drug Centre - Kapoorthala",
-      type: StoreType.PRIVATE,
-      address: "Near Kapoorthala Chauraha, Aliganj",
-      area: "Aliganj",
-      lat: 26.8872,
-      lng: 80.9388,
-      phone: "+91 94150 11007",
-      ownerName: "Sanjay Dixit",
-      openHours: "08:00 AM - 10:30 PM",
-    },
-    {
-      name: "National Medical Hall - Sector B",
-      type: StoreType.PRIVATE,
-      address: "Sector B Main Road, Near Dandiya Bazar, Aliganj",
-      area: "Aliganj",
-      lat: 26.8911,
-      lng: 80.9452,
-      phone: "+91 94150 11008",
-      ownerName: "Prashant Shukla",
-      openHours: "09:00 AM - 10:00 PM",
-    },
-    {
-      name: "Gupta Brothers Medicos - Indira Nagar",
-      type: StoreType.PRIVATE,
-      address: "Bhootnath Market, Block B, Indira Nagar",
-      area: "Indira Nagar",
-      lat: 26.8785,
-      lng: 80.9822,
-      phone: "+91 94150 11009",
-      ownerName: "Rakesh Gupta",
-      openHours: "08:00 AM - 11:00 PM",
-    },
-    {
-      name: "Pooja Pharmacy - Ring Road",
-      type: StoreType.PRIVATE,
-      address: "Ring Road, Near Polytechnic Chauraha, Indira Nagar",
-      area: "Indira Nagar",
-      lat: 26.8892,
-      lng: 80.9921,
-      phone: "+91 94150 11010",
-      ownerName: "Rameshwar Dayal",
-      openHours: "08:30 AM - 10:30 PM",
-    },
-    {
-      name: "Alambagh Chemists & Druggists",
-      type: StoreType.PRIVATE,
-      address: "Sardar Patel Marg, Alambagh Chauraha",
-      area: "Alambagh",
-      lat: 26.8168,
-      lng: 80.9038,
-      phone: "+91 94150 11011",
-      ownerName: "Harpreet Singh",
-      openHours: "08:00 AM - 10:30 PM",
-    },
-    {
-      name: "Singhal Medical Agency - Singar Nagar",
-      type: StoreType.PRIVATE,
-      address: "Singar Nagar Metro Station Road, Alambagh",
-      area: "Alambagh",
-      lat: 26.8124,
-      lng: 80.8992,
-      phone: "+91 94150 11012",
-      ownerName: "Sunil Singhal",
-      openHours: "08:30 AM - 10:00 PM",
-    },
-    {
-      name: "Chowk Relief Pharmacy",
-      type: StoreType.PRIVATE,
-      address: "Victoria Street, Near Gol Darwaza, Chowk",
-      area: "Chowk",
-      lat: 26.8695,
-      lng: 80.9118,
-      phone: "+91 94150 33003",
-      ownerName: "Vikram Singh Chauhan",
-      openHours: "08:00 AM - 11:00 PM",
-    },
-    {
-      name: "Awadh Health Corner - Chowk",
-      type: StoreType.PRIVATE,
-      address: "Medical Market, Near Kotwali, Chowk",
-      area: "Chowk",
-      lat: 26.8665,
-      lng: 80.9152,
-      phone: "+91 94150 11014",
-      ownerName: "Naveen Srivastava",
-      openHours: "09:00 AM - 10:30 PM",
-    },
-    {
-      name: "Rajajipuram Medical Store - Block C",
-      type: StoreType.PRIVATE,
-      address: "C-Block Market, Near Talkatora Stadium, Rajajipuram",
-      area: "Rajajipuram",
-      lat: 26.8375,
-      lng: 80.8885,
-      phone: "+91 94150 11015",
-      ownerName: "Dinesh Mishra",
-      openHours: "08:00 AM - 10:30 PM",
-    },
-    {
-      name: "Shri Ram Medicos - Rajajipuram",
-      type: StoreType.PRIVATE,
-      address: "E-Block Chauraha, Mini Stadium Road, Rajajipuram",
-      area: "Rajajipuram",
-      lat: 26.8324,
-      lng: 80.8841,
-      phone: "+91 94150 11016",
-      ownerName: "Shri Ram Verma",
-      openHours: "08:30 AM - 10:00 PM",
-    },
-    {
-      name: "Mahanagar Health Line Chemists",
-      type: StoreType.PRIVATE,
-      address: "Gole Market, Mahanagar",
-      area: "Mahanagar",
-      lat: 26.8792,
-      lng: 80.9525,
-      phone: "+91 94150 11017",
-      ownerName: "Anupam Trivedi",
-      openHours: "08:00 AM - 11:00 PM",
-    },
-    {
-      name: "Chandra Medical Hall - Mahanagar",
-      type: StoreType.PRIVATE,
-      address: "Mandir Marg, Near IT College Chauraha, Mahanagar",
-      area: "Mahanagar",
-      lat: 26.8745,
-      lng: 80.9482,
-      phone: "+91 94150 11018",
-      ownerName: "Subhash Chandra",
-      openHours: "08:30 AM - 10:30 PM",
-    },
-    {
-      name: "Krishna Chemist - Indira Nagar C-Block",
-      type: StoreType.PRIVATE,
-      address: "Sector C, Near Neelkanth Sweets, Indira Nagar",
-      area: "Indira Nagar",
-      lat: 26.8821,
-      lng: 80.9785,
-      phone: "+91 94150 11019",
-      ownerName: "Krishnakant Pandey",
-      openHours: "08:00 AM - 10:00 PM",
-    },
-    {
-      name: "Janta Pharmacy - Alambagh Chander Nagar",
-      type: StoreType.PRIVATE,
-      address: "Chander Nagar Market, Alambagh",
-      area: "Alambagh",
-      lat: 26.8185,
-      lng: 80.9065,
-      phone: "+91 94150 11020",
-      ownerName: "Mohd. Shakeel",
-      openHours: "09:00 AM - 11:00 PM",
-    },
-    {
-      name: "Balaji Medicos - Rajajipuram Meena Market",
-      type: StoreType.PRIVATE,
-      address: "Meena Market, Sector 11, Rajajipuram",
-      area: "Rajajipuram",
-      lat: 26.8402,
-      lng: 80.8915,
-      phone: "+91 94150 11021",
-      ownerName: "Om Prakash Sharma",
-      openHours: "08:00 AM - 10:00 PM",
-    },
-    {
-      name: "Arogya Medical Store - Mahanagar Ext.",
-      type: StoreType.PRIVATE,
-      address: "Khurram Nagar Ring Road, Near Mahanagar Ext.",
-      area: "Mahanagar",
-      lat: 26.8835,
-      lng: 80.9612,
-      phone: "+91 94150 11022",
-      ownerName: "Hemant Tiwari",
-      openHours: "08:30 AM - 10:30 PM",
-    },
-  ];
+      // 22 Private Pharmacies across all key areas
+      {
+        name: "Sanjeevani Medicos & Healthcare",
+        type: StoreType.PRIVATE,
+        address: "MG Marg, Opposite GPO, Hazratganj",
+        area: "Hazratganj",
+        lat: 26.8505,
+        lng: 80.9442,
+        phone: "+91 94150 11001",
+        ownerName: "Rajesh Kumar Gupta",
+        openHours: "08:00 AM - 11:00 PM",
+      },
+      {
+        name: "Apollo Pharmacy - Hazratganj",
+        type: StoreType.PRIVATE,
+        address: "Sapru Marg, Near Prem Motors, Hazratganj",
+        area: "Hazratganj",
+        lat: 26.8541,
+        lng: 80.9485,
+        phone: "+91 94150 11002",
+        ownerName: "Apollo Health Co.",
+        openHours: "24 Hours Open",
+      },
+      {
+        name: "MedPlus Chemist - Hazratganj",
+        type: StoreType.PRIVATE,
+        address: "Shahnajaf Road, Near Sahara Ganj Mall, Hazratganj",
+        area: "Hazratganj",
+        lat: 26.8532,
+        lng: 80.9521,
+        phone: "+91 94150 11003",
+        ownerName: "Deepak Mehra",
+        openHours: "07:30 AM - 11:30 PM",
+      },
+      {
+        name: "City Chemist & Surgical - Patrakarpuram",
+        type: StoreType.PRIVATE,
+        address: "Main Market, Patrakarpuram Crossing, Gomti Nagar",
+        area: "Gomti Nagar",
+        lat: 26.8492,
+        lng: 80.9982,
+        phone: "+91 94150 11004",
+        ownerName: "Vivek Saxena",
+        openHours: "08:00 AM - 11:00 PM",
+      },
+      {
+        name: "Wellness Forever 24x7 - Gomti Nagar",
+        type: StoreType.PRIVATE,
+        address: "Vipul Khand 3, Near Hahnemann Chauraha, Gomti Nagar",
+        area: "Gomti Nagar",
+        lat: 26.8421,
+        lng: 80.9954,
+        phone: "+91 94150 11005",
+        ownerName: "Nitin Agarwal",
+        openHours: "24 Hours Open",
+      },
+      {
+        name: "Avadh Medical Store - Vivek Khand",
+        type: StoreType.PRIVATE,
+        address: "Shop 7, Shopping Center, Vivek Khand 2, Gomti Nagar",
+        area: "Gomti Nagar",
+        lat: 26.8585,
+        lng: 81.0112,
+        phone: "+91 94150 11006",
+        ownerName: "Mahesh Chandra",
+        openHours: "08:30 AM - 10:30 PM",
+      },
+      {
+        name: "Aliganj Drug Centre - Kapoorthala",
+        type: StoreType.PRIVATE,
+        address: "Near Kapoorthala Chauraha, Aliganj",
+        area: "Aliganj",
+        lat: 26.8872,
+        lng: 80.9388,
+        phone: "+91 94150 11007",
+        ownerName: "Sanjay Dixit",
+        openHours: "08:00 AM - 10:30 PM",
+      },
+      {
+        name: "National Medical Hall - Sector B",
+        type: StoreType.PRIVATE,
+        address: "Sector B Main Road, Near Dandiya Bazar, Aliganj",
+        area: "Aliganj",
+        lat: 26.8911,
+        lng: 80.9452,
+        phone: "+91 94150 11008",
+        ownerName: "Prashant Shukla",
+        openHours: "09:00 AM - 10:00 PM",
+      },
+      {
+        name: "Gupta Brothers Medicos - Indira Nagar",
+        type: StoreType.PRIVATE,
+        address: "Bhootnath Market, Block B, Indira Nagar",
+        area: "Indira Nagar",
+        lat: 26.8785,
+        lng: 80.9822,
+        phone: "+91 94150 11009",
+        ownerName: "Rakesh Gupta",
+        openHours: "08:00 AM - 11:00 PM",
+      },
+      {
+        name: "Pooja Pharmacy - Ring Road",
+        type: StoreType.PRIVATE,
+        address: "Ring Road, Near Polytechnic Chauraha, Indira Nagar",
+        area: "Indira Nagar",
+        lat: 26.8892,
+        lng: 80.9921,
+        phone: "+91 94150 11010",
+        ownerName: "Rameshwar Dayal",
+        openHours: "08:30 AM - 10:30 PM",
+      },
+      {
+        name: "Alambagh Chemists & Druggists",
+        type: StoreType.PRIVATE,
+        address: "Sardar Patel Marg, Alambagh Chauraha",
+        area: "Alambagh",
+        lat: 26.8168,
+        lng: 80.9038,
+        phone: "+91 94150 11011",
+        ownerName: "Harpreet Singh",
+        openHours: "08:00 AM - 10:30 PM",
+      },
+      {
+        name: "Singhal Medical Agency - Singar Nagar",
+        type: StoreType.PRIVATE,
+        address: "Singar Nagar Metro Station Road, Alambagh",
+        area: "Alambagh",
+        lat: 26.8124,
+        lng: 80.8992,
+        phone: "+91 94150 11012",
+        ownerName: "Sunil Singhal",
+        openHours: "08:30 AM - 10:00 PM",
+      },
+      {
+        name: "Chowk Relief Pharmacy",
+        type: StoreType.PRIVATE,
+        address: "Victoria Street, Near Gol Darwaza, Chowk",
+        area: "Chowk",
+        lat: 26.8695,
+        lng: 80.9118,
+        phone: "+91 94150 33003",
+        ownerName: "Vikram Singh Chauhan",
+        openHours: "08:00 AM - 11:00 PM",
+      },
+      {
+        name: "Awadh Health Corner - Chowk",
+        type: StoreType.PRIVATE,
+        address: "Medical Market, Near Kotwali, Chowk",
+        area: "Chowk",
+        lat: 26.8665,
+        lng: 80.9152,
+        phone: "+91 94150 11014",
+        ownerName: "Naveen Srivastava",
+        openHours: "09:00 AM - 10:30 PM",
+      },
+      {
+        name: "Rajajipuram Medical Store - Block C",
+        type: StoreType.PRIVATE,
+        address: "C-Block Market, Near Talkatora Stadium, Rajajipuram",
+        area: "Rajajipuram",
+        lat: 26.8375,
+        lng: 80.8885,
+        phone: "+91 94150 11015",
+        ownerName: "Dinesh Mishra",
+        openHours: "08:00 AM - 10:30 PM",
+      },
+      {
+        name: "Shri Ram Medicos - Rajajipuram",
+        type: StoreType.PRIVATE,
+        address: "E-Block Chauraha, Mini Stadium Road, Rajajipuram",
+        area: "Rajajipuram",
+        lat: 26.8324,
+        lng: 80.8841,
+        phone: "+91 94150 11016",
+        ownerName: "Shri Ram Verma",
+        openHours: "08:30 AM - 10:00 PM",
+      },
+      {
+        name: "Mahanagar Health Line Chemists",
+        type: StoreType.PRIVATE,
+        address: "Gole Market, Mahanagar",
+        area: "Mahanagar",
+        lat: 26.8792,
+        lng: 80.9525,
+        phone: "+91 94150 11017",
+        ownerName: "Anupam Trivedi",
+        openHours: "08:00 AM - 11:00 PM",
+      },
+      {
+        name: "Chandra Medical Hall - Mahanagar",
+        type: StoreType.PRIVATE,
+        address: "Mandir Marg, Near IT College Chauraha, Mahanagar",
+        area: "Mahanagar",
+        lat: 26.8745,
+        lng: 80.9482,
+        phone: "+91 94150 11018",
+        ownerName: "Subhash Chandra",
+        openHours: "08:30 AM - 10:30 PM",
+      },
+      {
+        name: "Krishna Chemist - Indira Nagar C-Block",
+        type: StoreType.PRIVATE,
+        address: "Sector C, Near Neelkanth Sweets, Indira Nagar",
+        area: "Indira Nagar",
+        lat: 26.8821,
+        lng: 80.9785,
+        phone: "+91 94150 11019",
+        ownerName: "Krishnakant Pandey",
+        openHours: "08:00 AM - 10:00 PM",
+      },
+      {
+        name: "Janta Pharmacy - Alambagh Chander Nagar",
+        type: StoreType.PRIVATE,
+        address: "Chander Nagar Market, Alambagh",
+        area: "Alambagh",
+        lat: 26.8185,
+        lng: 80.9065,
+        phone: "+91 94150 11020",
+        ownerName: "Mohd. Shakeel",
+        openHours: "09:00 AM - 11:00 PM",
+      },
+      {
+        name: "Balaji Medicos - Rajajipuram Meena Market",
+        type: StoreType.PRIVATE,
+        address: "Meena Market, Sector 11, Rajajipuram",
+        area: "Rajajipuram",
+        lat: 26.8402,
+        lng: 80.8915,
+        phone: "+91 94150 11021",
+        ownerName: "Om Prakash Sharma",
+        openHours: "08:00 AM - 10:00 PM",
+      },
+      {
+        name: "Arogya Medical Store - Mahanagar Ext.",
+        type: StoreType.PRIVATE,
+        address: "Khurram Nagar Ring Road, Near Mahanagar Ext.",
+        area: "Mahanagar",
+        lat: 26.8835,
+        lng: 80.9612,
+        phone: "+91 94150 11022",
+        ownerName: "Hemant Tiwari",
+        openHours: "08:30 AM - 10:30 PM",
+      },
+    ];
 
   const createdStores: any[] = [];
   for (const s of storeRawList) {
@@ -1922,110 +1922,130 @@ async function main() {
   }
 
   // ----------------------------------------------------------------
-  // 8. SEED ORDERS, ORDER ITEMS & MESSAGES
+  // 8. SEED ORDERS, ORDER ITEMS & MESSAGES (~150 completed orders across 6 months)
   // ----------------------------------------------------------------
-  console.log("Seeding Demo Orders, Items & In-app Messages...");
+  console.log("Seeding ~150 Demo Orders across past 6 months for Impact Analytics...");
 
-  // Order 1: Senior citizen Ram Swaroop reserved Metformin & Telmisartan at Jan Aushadhi Hazratganj
-  const janHazratganj = createdStores.find((s) => s.name.includes("Hazratganj") && s.type === StoreType.JAN_AUSHADHI);
-  const genMetformin = createdMedicines.find((m) => m.brandName.includes("Jan Aushadhi Metformin 500"));
-  const genTelma = createdMedicines.find((m) => m.brandName.includes("Jan Aushadhi Telmisartan 40"));
+  const allUsers = [user1Senior, user2Pregnant, user3LowIncome];
+  let seniorAccumulatedSavings = 0;
 
-  if (janHazratganj && genMetformin && genTelma) {
-    const order1 = await prisma.order.create({
+  // Pre-filter Jan Aushadhi medicines and Branded counterparts for pairing
+  const janMeds = createdMedicines.filter((m) => m.isJanAushadhi);
+  const brandMeds = createdMedicines.filter((m) => !m.isJanAushadhi && !m.isGeneric);
+
+  // Generate 150 orders
+  for (let oIdx = 0; oIdx < 150; oIdx++) {
+    // Spread evenly across past 180 days (6 months)
+    const daysAgo = Math.floor((oIdx / 150) * 175) + Math.floor(Math.random() * 3);
+    const orderDate = new Date(now.getTime() - daysAgo * 24 * 3600 * 1000 - Math.floor(Math.random() * 12) * 3600 * 1000);
+
+    const user = allUsers[oIdx % allUsers.length];
+    const store = createdStores[Math.floor(Math.random() * createdStores.length)];
+    const isJanStore = store.type === StoreType.JAN_AUSHADHI;
+
+    // 92% are COMPLETED, others CONFIRMED or READY
+    const status = oIdx < 138 ? OrderStatus.COMPLETED : oIdx < 145 ? OrderStatus.READY : OrderStatus.CONFIRMED;
+    const mode = Math.random() < 0.75 ? OrderMode.PICKUP : OrderMode.DELIVERY;
+
+    // 1 to 3 items per order
+    const itemCount = Math.floor(Math.random() * 2) + 1;
+    let orderPaid = 0;
+    let orderBaseline = 0;
+    let orderSavings = 0;
+
+    const orderItemsToCreate: any[] = [];
+
+    for (let it = 0; it < itemCount; it++) {
+      let chosenMed: any = null;
+      let baselineMrp = 0;
+
+      if (isJanStore || Math.random() < 0.65) {
+        // High generic/Jan Aushadhi selection
+        chosenMed = janMeds[Math.floor(Math.random() * janMeds.length)];
+        // Find comparable branded baseline
+        const compBrand = brandMeds.find((b) => b.salts.some((bs: any) => chosenMed.salts.some((cs: any) => cs.saltName === bs.saltName)));
+        baselineMrp = compBrand ? compBrand.mrp : Number((chosenMed.mrp * 3.5).toFixed(1));
+      } else {
+        chosenMed = brandMeds[Math.floor(Math.random() * brandMeds.length)];
+        baselineMrp = chosenMed.mrp;
+      }
+
+      const qty = Math.floor(Math.random() * 2) + 1;
+      const unitPrice = chosenMed.mrp;
+      const itemPaid = Number((unitPrice * qty).toFixed(2));
+      const itemBaseline = Number((baselineMrp * qty).toFixed(2));
+      const itemSaving = Number(Math.max(0, itemBaseline - itemPaid).toFixed(2));
+
+      orderPaid += itemPaid;
+      orderBaseline += itemBaseline;
+      orderSavings += itemSaving;
+
+      orderItemsToCreate.push({
+        medicineId: chosenMed.id,
+        quantity: qty,
+        unitPrice: unitPrice,
+        baselinePrice: baselineMrp,
+      });
+    }
+
+    const createdOrder = await prisma.order.create({
       data: {
-        userId: user1Senior.id,
-        storeId: janHazratganj.id,
-        status: OrderStatus.CONFIRMED,
-        mode: OrderMode.PICKUP,
-        createdAt: new Date(now.getTime() - 4 * 3600 * 1000),
-        holdExpiresAt: new Date(now.getTime() + 2 * 3600 * 1000),
-        totalPaid: 28.5,
-        totalMrpBaseline: 170.0,
-        savings: 141.5, // 83% savings
+        userId: user.id,
+        storeId: store.id,
+        status: status,
+        mode: mode,
+        createdAt: orderDate,
+        holdExpiresAt: new Date(orderDate.getTime() + 2 * 3600 * 1000),
+        totalPaid: Number(orderPaid.toFixed(2)),
+        totalMrpBaseline: Number(orderBaseline.toFixed(2)),
+        savings: Number(orderSavings.toFixed(2)),
       },
     });
 
-    await prisma.orderItem.create({
-      data: {
-        orderId: order1.id,
-        medicineId: genMetformin.id,
-        quantity: 1,
-        unitPrice: 6.5,
-        baselinePrice: 25.0,
-      },
-    });
+    for (const item of orderItemsToCreate) {
+      await prisma.orderItem.create({
+        data: {
+          orderId: createdOrder.id,
+          medicineId: item.medicineId,
+          quantity: item.quantity,
+          unitPrice: item.unitPrice,
+          baselinePrice: item.baselinePrice,
+        },
+      });
+    }
 
-    await prisma.orderItem.create({
-      data: {
-        orderId: order1.id,
-        medicineId: genTelma.id,
-        quantity: 1,
-        unitPrice: 22.0,
-        baselinePrice: 145.0,
-      },
-    });
-
-    // Messages on thread
-    await prisma.message.create({
-      data: {
-        orderId: order1.id,
-        userId: user1Senior.id,
-        storeId: janHazratganj.id,
-        senderRole: "CITIZEN",
-        text: "Namaste, I have placed a 2-hour hold for Jan Aushadhi Telmisartan 40mg and Metformin 500mg. Reaching Hazratganj by 4 PM.",
-        createdAt: new Date(now.getTime() - 3.8 * 3600 * 1000),
-      },
-    });
-
-    await prisma.message.create({
-      data: {
-        orderId: order1.id,
-        userId: user1Senior.id,
-        storeId: janHazratganj.id,
-        senderRole: "STORE",
-        text: "Ji Shukla ji, your medicines are packed and kept at Counter 2. Please show order ID upon arrival.",
-        createdAt: new Date(now.getTime() - 3.5 * 3600 * 1000),
-      },
-    });
+    if (user.id === user1Senior.id && status === OrderStatus.COMPLETED) {
+      seniorAccumulatedSavings += orderSavings;
+    }
   }
 
-  // Order 2: Sunita Verma (Pregnant woman) reserved Calcium / Vitamin D3 at Gomti Nagar
-  const storeGomti = createdStores.find((s) => s.area === "Gomti Nagar" && s.type === StoreType.PRIVATE);
-  const vitD3 = createdMedicines.find((m) => m.brandName.includes("Calcirol 60K"));
-  if (storeGomti && vitD3) {
-    const order2 = await prisma.order.create({
-      data: {
-        userId: user2Pregnant.id,
-        storeId: storeGomti.id,
-        status: OrderStatus.READY,
-        mode: OrderMode.PICKUP,
-        createdAt: new Date(now.getTime() - 2 * 3600 * 1000),
-        holdExpiresAt: new Date(now.getTime() + 1 * 3600 * 1000),
-        totalPaid: 120.0,
-        totalMrpBaseline: 130.0,
-        savings: 10.0,
-      },
-    });
+  // Update Ram Swaroop Shukla's lifetime savings
+  await prisma.user.update({
+    where: { id: user1Senior.id },
+    data: { savedTotal: Number(seniorAccumulatedSavings.toFixed(2)) },
+  });
 
-    await prisma.orderItem.create({
-      data: {
-        orderId: order2.id,
-        medicineId: vitD3.id,
-        quantity: 1,
-        unitPrice: 120.0,
-        baselinePrice: 130.0,
-      },
-    });
-
+  // Seed sample in-app messages on recent orders
+  const recentOrders = await prisma.order.findMany({ take: 3, orderBy: { createdAt: "desc" } });
+  for (const rOrder of recentOrders) {
     await prisma.message.create({
       data: {
-        orderId: order2.id,
-        userId: user2Pregnant.id,
-        storeId: storeGomti.id,
+        orderId: rOrder.id,
+        userId: rOrder.userId,
+        storeId: rOrder.storeId,
+        senderRole: "CITIZEN",
+        text: "Namaste, I have placed an order for generic medicines under Jan Aushadhi. Please keep ready for pickup.",
+        createdAt: new Date(rOrder.createdAt.getTime() + 10 * 60 * 1000),
+      },
+    });
+    await prisma.message.create({
+      data: {
+        orderId: rOrder.id,
+        userId: rOrder.userId,
+        storeId: rOrder.storeId,
         senderRole: "STORE",
-        text: "Your prescription reservation is ready for pickup at Patrakarpuram counter.",
-        createdAt: new Date(now.getTime() - 1.5 * 3600 * 1000),
+        text: "Ji, medicines are reserved and packed with invoice. Thank you for using DawaaSetu.",
+        createdAt: new Date(rOrder.createdAt.getTime() + 25 * 60 * 1000),
       },
     });
   }
