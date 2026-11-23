@@ -31,6 +31,7 @@ import {
 } from "lucide-react";
 import { CardSkeleton } from "@/components/Skeleton";
 import { EmptyState } from "@/components/EmptyState";
+import { SubstitutePanel } from "@/components/SubstitutePanel";
 
 interface ExtractedMedicineItem {
   id: string;
@@ -765,6 +766,15 @@ export default function PrescriptionUploadPage() {
                           <span>Check nearby stores</span>
                           <ArrowRight className="w-3 h-3" />
                         </Link>
+                      </div>
+
+                      {/* Generic Substitution Engine Panel */}
+                      <div className="pt-2">
+                        <SubstitutePanel
+                          medicineId={dbMed.id}
+                          medicineName={match.prescribedName}
+                          defaultExpanded={false}
+                        />
                       </div>
                     </div>
                   );
