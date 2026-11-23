@@ -1,0 +1,98 @@
+{
+  "invoiceNumber": "LKO-PUR-2026-9481",
+  "distributorName": "Awadh Pharma Distributors & C&F, Aminabad, Lucknow",
+  "invoiceDate": "2026-11-22",
+  "gstNumber": "09AAACD4412E1Z2",
+  "items": [
+    {
+      "productName": "Dolo 650 Tablet",
+      "batchNo": "DL26M14",
+      "expiryDate": "2028-06-30",
+      "quantity": 50,
+      "mrp": 33.6,
+      "purchaseRate": 23.5,
+      "manufacturer": "Micro Labs Ltd"
+    },
+    {
+      "productName": "Augmentin 625 Duo Tablet",
+      "batchNo": "AG88K02",
+      "expiryDate": "2027-12-31",
+      "quantity": 30,
+      "mrp": 223.5,
+      "purchaseRate": 165.0,
+      "manufacturer": "GlaxoSmithKline Pharmaceuticals"
+    },
+    {
+      "productName": "Azithral 500 Tablet",
+      "batchNo": "AZ44P19",
+      "expiryDate": "2028-01-31",
+      "quantity": 25,
+      "mrp": 125.0,
+      "purchaseRate": 88.0,
+      "manufacturer": "Alembic Pharmaceuticals"
+    },
+    {
+      "productName": "Electral ORS Sachet 21.8g",
+      "batchNo": "EL77N08",
+      "expiryDate": "2027-10-31",
+      "quantity": 100,
+      "mrp": 22.0,
+      "purchaseRate": 15.0,
+      "manufacturer": "FDC Ltd"
+    },
+    {
+      "productName": "Glycomet 500 SR Tablet",
+      "batchNo": "GL99R03",
+      "expiryDate": "2027-09-30",
+      "quantity": 40,
+      "mrp": 42.0,
+      "purchaseRate": 28.5,
+      "manufacturer": "USV Ltd"
+    },
+    {
+      "productName": "Telma 40 Tablet",
+      "batchNo": "TL33B11",
+      "expiryDate": "2028-03-31",
+      "quantity": 35,
+      "mrp": 145.0,
+      "purchaseRate": 102.0,
+      "manufacturer": "Glenmark Pharmaceuticals"
+    },
+    {
+      "productName": "Pan 40 Tablet",
+      "batchNo": "PN11W09",
+      "expiryDate": "2027-11-30",
+      "quantity": 60,
+      "mrp": 155.0,
+      "purchaseRate": 108.0,
+      "manufacturer": "Alkem Laboratories"
+    },
+    {
+      "productName": "Thyronorm 50mcg Tablet",
+      "batchNo": "TH66D22",
+      "expiryDate": "2027-08-31",
+      "quantity": 20,
+      "mrp": 138.0,
+      "purchaseRate": 98.0,
+      "manufacturer": "Abbott Healthcare"
+    },
+    {
+      "productName": "Calpol 250mg Peadiatric Syrup",
+      "batchNo": "CP22Q01",
+      "expiryDate": "2027-05-31",
+      "quantity": 15,
+      "mrp": 48.0,
+      "purchaseRate": 34.0,
+      "manufacturer": "GlaxoSmithKline"
+    },
+    {
+      "productName": "Zincovit Multivitamin Tablet",
+      "batchNo": "ZN55Y18",
+      "expiryDate": "2027-12-31",
+      "quantity": 40,
+      "mrp": 110.0,
+      "purchaseRate": 76.0,
+      "manufacturer": "Apex Laboratories"
+    }
+  ]
+}
