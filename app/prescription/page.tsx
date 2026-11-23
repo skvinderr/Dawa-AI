@@ -257,9 +257,9 @@ export default function PrescriptionUploadPage() {
     const textToSpeak =
       language === "hi"
         ? med.explanationHi ||
-          `दवा का नाम: ${med.name}। खुराक: ${med.frequency}। निर्देश: ${med.instructions}।`
+        `दवा का नाम: ${med.name}। खुराक: ${med.frequency}। निर्देश: ${med.instructions}।`
         : med.explanationEn ||
-          `Medicine: ${med.name}. Dosage frequency: ${med.frequency}. Instructions: ${med.instructions}.`;
+        `Medicine: ${med.name}. Dosage frequency: ${med.frequency}. Instructions: ${med.instructions}.`;
 
     const utterance = new SpeechSynthesisUtterance(textToSpeak);
     utterance.lang = language === "hi" ? "hi-IN" : "en-IN";
@@ -342,8 +342,8 @@ export default function PrescriptionUploadPage() {
                   {selectedFile
                     ? selectedFile.name
                     : language === "hi"
-                    ? "पर्चे की फोटो या PDF यहां अपलोड करें"
-                    : "Upload Prescription Photo or PDF"}
+                      ? "पर्चे की फोटो या PDF यहां अपलोड करें"
+                      : "Upload Prescription Photo or PDF"}
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-500 max-w-sm mx-auto mb-4">
                   {language === "hi"
@@ -414,6 +414,7 @@ export default function PrescriptionUploadPage() {
                   className="relative w-full max-h-[340px] flex items-center justify-center transition-transform duration-300"
                   style={{ transform: `rotate(${rotation}deg)` }}
                 >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={previewUrl}
                     alt="Prescription Preview"
@@ -532,13 +533,12 @@ export default function PrescriptionUploadPage() {
                       return (
                         <tr
                           key={med.id}
-                          className={`transition-colors ${
-                            isLowConfidence
-                              ? "bg-amber-50/70 border-l-4 border-amber-500"
-                              : isMedConfidence
+                          className={`transition-colors ${isLowConfidence
+                            ? "bg-amber-50/70 border-l-4 border-amber-500"
+                            : isMedConfidence
                               ? "bg-yellow-50/30"
                               : "hover:bg-slate-50/60"
-                          }`}
+                            }`}
                         >
                           {/* Medicine Name */}
                           <td className="py-3 px-4 min-w-[200px]">
@@ -623,11 +623,10 @@ export default function PrescriptionUploadPage() {
                               <button
                                 type="button"
                                 onClick={() => handleReadAloud(med)}
-                                className={`p-1.5 rounded-lg transition-colors ${
-                                  speakingId === med.id
-                                    ? "bg-health-600 text-white animate-pulse"
-                                    : "text-slate-600 hover:text-health-700 hover:bg-health-50"
-                                }`}
+                                className={`p-1.5 rounded-lg transition-colors ${speakingId === med.id
+                                  ? "bg-health-600 text-white animate-pulse"
+                                  : "text-slate-600 hover:text-health-700 hover:bg-health-50"
+                                  }`}
                                 title={speakingId === med.id ? "Stop voice" : "Read aloud"}
                               >
                                 {speakingId === med.id ? (

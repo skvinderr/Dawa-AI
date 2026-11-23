@@ -1,35 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { z } from "zod";
 import * as fs from "fs";
 import * as path from "path";
-
-// Strict Zod Schemas
-export const ExtractedMedicineSchema = z.object({
-  id: z.string().optional(),
-  name: z.string().min(1),
-  probable_brand: z.string().optional().default(""),
-  salt: z.string().optional().default(""),
-  strength: z.string().optional().default(""),
-  dosageForm: z.string().optional().default("tablet"),
-  frequency: z.string().optional().default("1-0-1"),
-  durationDays: z
-    .union([z.number(), z.string().regex(/\d+/).transform(Number)])
-    .optional()
-    .default(5),
-  instructions: z.string().optional().default("Take as directed by doctor"),
-  confidence: z.enum(["high", "medium", "low"]).default("medium"),
-  explanationEn: z.string().optional().default(""),
-  explanationHi: z.string().optional().default(""),
-});
-
-export const PrescriptionExtractResponseSchema = z.object({
-  doctorNotes: z.string().optional().default(""),
-  patientInfo: z.string().optional().default(""),
-  medicines: z.array(ExtractedMedicineSchema),
-});
-
-export type ExtractedMedicine = z.infer<typeof ExtractedMedicineSchema>;
+import { PrescriptionExtractResponseSchema } from "@/lib/prescription";
 
 function loadSamplePrescriptionFallback(patientNoteExtra = "") {
   try {
@@ -38,9 +11,9 @@ function loadSamplePrescriptionFallback(patientNoteExtra = "") {
     const data = JSON.parse(raw);
     return {
       success: true,
-      doctorNotes: `${data.doctor?.name} (${data.doctor?.hospital}) ${patientNoteExtra}`.trim(),
-      patientInfo: `${data.patient?.name}, ${data.patient?.age}Y, ${data.patient?.diagnosis}`,
-      medicines: data.medicines,
+      doctorNotes: `${data.doctor?.name || "Dr. A. K. Srivastava"} (${data.doctor?.hospital || "KGMU Lucknow"}) ${patientNoteExtra}`.trim(),
+      patientInfo: `${data.patient?.name || "Ram Swaroop Shukla"}, ${data.patient?.age || 72}Y, ${data.patient?.diagnosis || "Hypertension & Diabetes"}`,
+      medicines: data.medicines || [],
       isMocked: true,
       message: "Loaded from verified offline demo prescription dataset.",
     };
@@ -176,7 +149,6 @@ export async function POST(req: NextRequest) {
     }
 
     if (!base64Data) {
-      // If no image provided, return fallback sample
       return NextResponse.json(loadSamplePrescriptionFallback("No image provided; displaying demo Rx."));
     }
 
@@ -206,7 +178,6 @@ export async function POST(req: NextRequest) {
       resultText = result.response.text();
     } catch (genError: any) {
       console.warn("Gemini vision primary call failed, retrying once...", genError?.message);
-      // Retry once with fallback gemini-1.5-flash or lower temp
       const fallbackModel = genAI.getGenerativeModel({
         model: "gemini-1.5-flash",
         generationConfig: { responseMimeType: "application/json", temperature: 0.1 },
@@ -221,7 +192,6 @@ export async function POST(req: NextRequest) {
     const validated = PrescriptionExtractResponseSchema.safeParse(rawParsed);
 
     if (validated.success) {
-      // Add unique IDs to medicines
       const medicinesWithIds = validated.data.medicines.map((m, idx) => ({
         ...m,
         id: m.id || `rx-gemini-${idx + 1}-${Date.now()}`,
@@ -237,12 +207,10 @@ export async function POST(req: NextRequest) {
       });
     } else {
       console.warn("Zod schema validation failed on Gemini response:", validated.error);
-      // Fallback if schema failed
       return NextResponse.json(loadSamplePrescriptionFallback("Schema validation fallback"));
     }
   } catch (error: any) {
     console.error("Prescription extract route error:", error);
-    // Guarantee demo never breaks
     const fallback = loadSamplePrescriptionFallback("(Offline / API fallback)");
     return NextResponse.json(fallback);
   }
