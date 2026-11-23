@@ -1,0 +1,72 @@
+[
+  {
+    "id": "store-1",
+    "name": "Pradhan Mantri Jan Aushadhi Kendra - Hazratganj",
+    "hindiName": "प्रधानमंत्री जन औषधि केंद्र - हजरतगंज",
+    "district": "Lucknow",
+    "address": "Shop 14, Near SPM Civil Hospital, Hazratganj, Lucknow, UP",
+    "pincode": "226001",
+    "lat": 26.8526,
+    "lng": 80.9462,
+    "phone": "+91 94150 12345",
+    "isJanAushadhi": true,
+    "rating": 4.8,
+    "operatingHours": "08:00 AM - 10:00 PM"
+  },
+  {
+    "id": "store-2",
+    "name": "Sanjeevani Medicos & Care",
+    "hindiName": "संजीवनी मेडिकोज एवं केयर",
+    "district": "Lucknow",
+    "address": "Opposite KGMU Gate No. 2, Chowk, Lucknow, UP",
+    "pincode": "226003",
+    "lat": 26.8698,
+    "lng": 80.9135,
+    "phone": "+91 98390 67890",
+    "isJanAushadhi": false,
+    "rating": 4.5,
+    "operatingHours": "24 Hours Open"
+  },
+  {
+    "id": "store-3",
+    "name": "Kashi Jan Aushadhi Medical Store",
+    "hindiName": "काशी जन औषधि मेडिकल स्टोर",
+    "district": "Varanasi",
+    "address": "Near BHU Trauma Centre, Lanka, Varanasi, UP",
+    "pincode": "221005",
+    "lat": 25.2677,
+    "lng": 82.9913,
+    "phone": "+91 94500 54321",
+    "isJanAushadhi": true,
+    "rating": 4.9,
+    "operatingHours": "08:00 AM - 11:00 PM"
+  },
+  {
+    "id": "store-4",
+    "name": "Kanpur Central Chemists",
+    "hindiName": "कानपुर सेंट्रल केमिस्ट",
+    "district": "Kanpur",
+    "address": "Mall Road, Near GSVM Medical College, Kanpur, UP",
+    "pincode": "208002",
+    "lat": 26.4716,
+    "lng": 80.3341,
+    "phone": "+91 93361 22334",
+    "isJanAushadhi": false,
+    "rating": 4.4,
+    "operatingHours": "09:00 AM - 10:30 PM"
+  },
+  {
+    "id": "store-5",
+    "name": "Gorakhnath Arogya Kendra & Pharmacy",
+    "hindiName": "गोरखनाथ आरोग्य केंद्र एवं फार्मेसी",
+    "district": "Gorakhpur",
+    "address": "Near BRD Medical College Road, Gorakhpur, UP",
+    "pincode": "273013",
+    "lat": 26.7905,
+    "lng": 83.3768,
+    "phone": "+91 94152 77889",
+    "isJanAushadhi": true,
+    "rating": 4.7,
+    "operatingHours": "08:00 AM - 10:00 PM"
+  }
+]

@@ -1,0 +1,117 @@
+[
+  {
+    "id": "med-1",
+    "brandName": "Augmentin 625 Duo",
+    "genericName": "Amoxycillin and Potassium Clavulanate",
+    "hindiName": "ऑगमेंटिन 625 डुओ",
+    "category": "Antibiotic",
+    "dosageForm": "Tablet",
+    "strength": "625mg",
+    "mrp": 218.5,
+    "isGeneric": false,
+    "isJanAushadhi": false,
+    "manufacturer": "GlaxoSmithKline Pharmaceuticals",
+    "substitute": {
+      "id": "med-1-gen",
+      "brandName": "Jan Aushadhi Amoxyclav",
+      "genericName": "Amoxycillin and Potassium Clavulanate",
+      "dosageForm": "Tablet",
+      "strength": "625mg",
+      "mrp": 54.0,
+      "savingsPercent": 75.3,
+      "isJanAushadhi": true
+    }
+  },
+  {
+    "id": "med-2",
+    "brandName": "Dolo 650",
+    "genericName": "Paracetamol",
+    "hindiName": "डोलो 650",
+    "category": "Analgesic / Antipyretic",
+    "dosageForm": "Tablet",
+    "strength": "650mg",
+    "mrp": 34.0,
+    "isGeneric": false,
+    "isJanAushadhi": false,
+    "manufacturer": "Micro Labs Ltd",
+    "substitute": {
+      "id": "med-2-gen",
+      "brandName": "Jan Aushadhi Paracetamol 650",
+      "genericName": "Paracetamol",
+      "dosageForm": "Tablet",
+      "strength": "650mg",
+      "mrp": 12.0,
+      "savingsPercent": 64.7,
+      "isJanAushadhi": true
+    }
+  },
+  {
+    "id": "med-3",
+    "brandName": "Glycomet-GP 2",
+    "genericName": "Metformin + Glimepiride",
+    "hindiName": "ग्लाइकोमेट-जीपी 2",
+    "category": "Anti-Diabetic",
+    "dosageForm": "Tablet",
+    "strength": "500mg/2mg",
+    "mrp": 165.0,
+    "isGeneric": false,
+    "isJanAushadhi": false,
+    "manufacturer": "USV Pvt Ltd",
+    "substitute": {
+      "id": "med-3-gen",
+      "brandName": "Jan Aushadhi Glimepiride & Metformin",
+      "genericName": "Metformin + Glimepiride",
+      "dosageForm": "Tablet",
+      "strength": "500mg/2mg",
+      "mrp": 28.0,
+      "savingsPercent": 83.0,
+      "isJanAushadhi": true
+    }
+  },
+  {
+    "id": "med-4",
+    "brandName": "Telma 40",
+    "genericName": "Telmisartan",
+    "hindiName": "टेल्मा 40",
+    "category": "Cardiac / Hypertension",
+    "dosageForm": "Tablet",
+    "strength": "40mg",
+    "mrp": 142.0,
+    "isGeneric": false,
+    "isJanAushadhi": false,
+    "manufacturer": "Glenmark Pharmaceuticals",
+    "substitute": {
+      "id": "med-4-gen",
+      "brandName": "Jan Aushadhi Telmisartan",
+      "genericName": "Telmisartan",
+      "dosageForm": "Tablet",
+      "strength": "40mg",
+      "mrp": 22.0,
+      "savingsPercent": 84.5,
+      "isJanAushadhi": true
+    }
+  },
+  {
+    "id": "med-5",
+    "brandName": "Pan-D",
+    "genericName": "Pantoprazole and Domperidone",
+    "hindiName": "पैन-डी कैप्सूल",
+    "category": "Gastrointestinal / Antacid",
+    "dosageForm": "Capsule",
+    "strength": "40mg/30mg",
+    "mrp": 199.0,
+    "isGeneric": false,
+    "isJanAushadhi": false,
+    "manufacturer": "Alkem Laboratories",
+    "substitute": {
+      "id": "med-5-gen",
+      "brandName": "Jan Aushadhi Pantoprazole-D",
+      "genericName": "Pantoprazole and Domperidone",
+      "dosageForm": "Capsule",
+      "strength": "40mg/30mg",
+      "mrp": 38.0,
+      "savingsPercent": 80.9,
+      "isJanAushadhi": true
+    }
+  }
+]

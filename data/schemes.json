@@ -1,0 +1,50 @@
+[
+  {
+    "id": "scheme-1",
+    "code": "PMJAY",
+    "name": "Ayushman Bharat - PMJAY",
+    "hindiName": "आयुष्मान भारत - प्रधानमंत्री जन आरोग्य योजना",
+    "coverageAmount": "₹5,00,000 / family / year",
+    "description": "Cashless secondary and tertiary hospitalisation treatment covering 27+ specialties and all essential in-patient medicines across empanelled hospitals.",
+    "hindiDescription": "प्रति परिवार प्रति वर्ष ₹5 लाख तक का निःशुल्क कैशलेस इलाज। अस्पताल में भर्ती के दौरान सभी जरूरी दवाएं पूर्णतः निःशुल्क।",
+    "benefitSummary": "Free secondary/tertiary inpatient medicines & hospital care",
+    "officialUrl": "https://pmjay.gov.in",
+    "badgeColor": "teal"
+  },
+  {
+    "id": "scheme-2",
+    "code": "MMJAY",
+    "name": "Mukhyamantri Jan Arogya Yojana (UP)",
+    "hindiName": "उत्तर प्रदेश मुख्यमंत्री जन आरोग्य योजना",
+    "coverageAmount": "₹5,00,000 / family / year",
+    "description": "Special UP State scheme extending ₹5 Lakh cashless coverage to families not covered under SECC PMJAY, including Antyodaya ration card holders and registered construction workers.",
+    "hindiDescription": "उत्तर प्रदेश सरकार द्वारा अंत्योदय राशन कार्ड धारकों और पंजीकृत श्रमिकों के लिए ₹5 लाख तक का कैशलेस स्वास्थ्य बीमा।",
+    "benefitSummary": "Coverage for UP Antyodaya card holders & informal workers",
+    "officialUrl": "https://upmysy.up.gov.in",
+    "badgeColor": "emerald"
+  },
+  {
+    "id": "scheme-3",
+    "code": "PMBJP",
+    "name": "Pradhan Mantri Bhartiya Janaushadhi Pariyojana",
+    "hindiName": "प्रधानमंत्री भारतीय जन औषधि परियोजना",
+    "coverageAmount": "50% - 90% Price Subsidy",
+    "description": "Dedicated Jan Aushadhi Kendras providing WHO-GMP certified generic medicines at a fraction of branded MRP across all 75 UP districts.",
+    "hindiDescription": "जेनेरिक दवाओं की दुकानों पर ब्रांडेड दवाओं की तुलना में 50% से 90% तक सस्ती दवाएं। गुणवत्ता में ब्रांडेड के बिल्कुल समान।",
+    "benefitSummary": "Direct retail discount on 1,800+ medicines & 290+ surgical items",
+    "officialUrl": "https://janaushadhi.gov.in",
+    "badgeColor": "blue"
+  },
+  {
+    "id": "scheme-4",
+    "code": "NTEP",
+    "name": "National TB Elimination & Nikshay Poshan Yojana",
+    "hindiName": "राष्ट्रीय टीबी उन्मूलन एवं निक्षय पोषण योजना",
+    "coverageAmount": "100% Free Medicines + ₹500/month",
+    "description": "Free anti-TB medicines provided through DOTS centres in UP along with direct DBT nutrition support of ₹500/month during treatment.",
+    "hindiDescription": "टीबी की सभी दवाएं पूर्णतः मुफ्त एवं उपचार के दौरान पोषण हेतु ₹500 प्रतिमाह मरीज के बैंक खाते में सीधा अंतरण।",
+    "benefitSummary": "Free 4-FDC TB medicines & monthly nutritional cash support",
+    "officialUrl": "https://nikshay.in",
+    "badgeColor": "amber"
+  }
+]

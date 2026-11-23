@@ -1,0 +1,54 @@
+{
+  "app_name": "DawaaSetu",
+  "app_tagline": "AI-Powered Medicine Discovery for Uttar Pradesh",
+  "tagline_sub": "Find essential medicines, check live store stock, switch to 70%+ cheaper Jan Aushadhi generics, and discover UP government health schemes.",
+  "nav": {
+    "home": "Home",
+    "search": "Find Medicines",
+    "prescription": "Scan Prescription",
+    "schemes": "UP Govt Schemes",
+    "stores": "Find Pharmacies",
+    "orders": "My Reserves",
+    "shopkeeper": "Pharmacist Portal",
+    "admin": "Health Dept Heatmap",
+    "impact": "Savings Impact",
+    "role": "Role"
+  },
+  "roles": {
+    "citizen": "Citizen",
+    "shopkeeper": "Shopkeeper",
+    "admin": "Admin / Health Dept"
+  },
+  "hero": {
+    "badge": "Ayushman Bharat & PM Jan Aushadhi Connected",
+    "heading": "Find Medicines & Cheaper Generics Near You",
+    "subheading": "Real-time stock across Lucknow, Varanasi, Kanpur, Gorakhpur, Prayagraj & UP districts. Never run store-to-store again.",
+    "search_placeholder": "Search medicine name, salt, or disease (e.g. Paracetamol, Metformin, Azithromycin)...",
+    "search_button": "Search Stock",
+    "or_divider": "OR",
+    "upload_prescription": "Upload Prescription (AI Scan)",
+    "upload_hint": "Supports Hindi & English handwritten doctor prescriptions"
+  },
+  "quick_stats": {
+    "pharmacies": "500+ Verified UP Stores",
+    "generics": "1,800+ Jan Aushadhi Generics",
+    "savings": "Up to 85% Savings",
+    "districts": "75 Districts of UP"
+  },
+  "disclaimer": {
+    "medical": "Confirm with your doctor or pharmacist before switching."
+  },
+  "footer": {
+    "demo_badge": "Demo data for AI Kaushal Hackathon",
+    "mission": "Bridging citizens, local chemists, and government healthcare in Uttar Pradesh.",
+    "quick_links": "Quick Links",
+    "emergency": "UP Health Helpline: 108 / 102",
+    "copyright": "© 2026 DawaaSetu. All rights reserved."
+  },
+  "common": {
+    "loading": "Loading information...",
+    "coming_soon": "Placeholder Route - Feature under active development",
+    "back_to_home": "Back to Home",
+    "explore_route": "Explore Route"
+  }
+}

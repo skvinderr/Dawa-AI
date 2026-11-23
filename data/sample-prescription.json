@@ -1,0 +1,87 @@
+{
+  "doctor": {
+    "name": "Dr. A. K. Srivastava",
+    "qualification": "MD (Gen. Medicine), DM (Card.)",
+    "registration": "UPMC-48291",
+    "hospital": "King George's Medical University (KGMU), Chowk, Lucknow",
+    "date": "2026-11-20"
+  },
+  "patient": {
+    "name": "Ram Swaroop Shukla",
+    "age": 72,
+    "gender": "Male",
+    "diagnosis": "Type-2 Diabetes, Hypertension & Upper Respiratory Tract Infection"
+  },
+  "medicines": [
+    {
+      "id": "rx-1",
+      "name": "Augmentin 625 Duo",
+      "probable_brand": "Augmentin 625 Duo",
+      "salt": "Amoxycillin and Potassium Clavulanate",
+      "strength": "625mg",
+      "dosageForm": "tablet",
+      "frequency": "1-0-1",
+      "durationDays": 5,
+      "instructions": "Take twice daily after meals with full glass of water. Complete full 5-day course.",
+      "confidence": "high",
+      "explanationEn": "Augmentin 625 is an antibiotic that fights bacterial infections in the chest and throat. Take 1 tablet in the morning and 1 at night after food for 5 days.",
+      "explanationHi": "ऑगमेंटिन 625 एक असरदार एंटीबायोटिक है जो छाती और गले के संक्रमण को ठीक करता है। 1 गोली सुबह और 1 रात को भोजन के बाद 5 दिन तक लें। कोर्स बीच में न छोड़ें।"
+    },
+    {
+      "id": "rx-2",
+      "name": "Pan-D cap",
+      "probable_brand": "Pan-D",
+      "salt": "Pantoprazole and Domperidone",
+      "strength": "40mg/30mg",
+      "dosageForm": "capsule",
+      "frequency": "1-0-0",
+      "durationDays": 7,
+      "instructions": "Take once daily in the morning 30 minutes before breakfast.",
+      "confidence": "high",
+      "explanationEn": "Pan-D reduces stomach acid, prevents heartburn, and stops antibiotic-induced nausea. Take 1 capsule on an empty stomach 30 minutes before breakfast.",
+      "explanationHi": "पैन-डी पेट की गैस, एसिडिटी और सीने में जलन से राहत देती है। इसे रोज सुबह नाश्ते से आधा घंटा पहले खाली पेट एक कैप्सूल पानी के साथ लें।"
+    },
+    {
+      "id": "rx-3",
+      "name": "Dolo 650",
+      "probable_brand": "Dolo 650",
+      "salt": "Paracetamol",
+      "strength": "650mg",
+      "dosageForm": "tablet",
+      "frequency": "1-0-1 (SOS)",
+      "durationDays": 3,
+      "instructions": "Take if fever exceeds 100°F or severe body ache. Do not exceed 3 tablets in 24 hours.",
+      "confidence": "high",
+      "explanationEn": "Dolo 650 is for fever and body ache. Take only if you have fever or pain, after eating light food.",
+      "explanationHi": "डोलो 650 बुखार और बदन दर्द के लिए है। तेज बुखार या दर्द होने पर ही भोजन के बाद लें। 24 घंटे में 3 से अधिक गोलियां न लें।"
+    },
+    {
+      "id": "rx-4",
+      "name": "Telma 40",
+      "probable_brand": "Telma 40",
+      "salt": "Telmisartan",
+      "strength": "40mg",
+      "dosageForm": "tablet",
+      "frequency": "0-1-0",
+      "durationDays": 30,
+      "instructions": "Take daily at same time (after lunch). Keep monitoring blood pressure weekly.",
+      "confidence": "medium",
+      "explanationEn": "Telma 40 controls high blood pressure and protects your heart. Take 1 tablet daily after lunch. Do not skip.",
+      "explanationHi": "टेल्मा 40 हाई ब्लड प्रेशर को नियंत्रित रखती है और हृदय को सुरक्षित करती है। इसे दोपहर के खाने के बाद प्रतिदिन एक ही समय पर लें।"
+    },
+    {
+      "id": "rx-5",
+      "name": "Glycomet-GP 2 (unclear handwriting)",
+      "probable_brand": "Glycomet-GP 2",
+      "salt": "Metformin + Glimepiride",
+      "strength": "500mg/2mg",
+      "dosageForm": "tablet",
+      "frequency": "1-0-0",
+      "durationDays": 30,
+      "instructions": "Take with the first bite of morning breakfast. Check fasting sugar regularly.",
+      "confidence": "low",
+      "explanationEn": "Glycomet-GP 2 manages Type-2 diabetes by lowering blood glucose levels. Take with morning breakfast.",
+      "explanationHi": "ग्लाइकोमेट-जीपी 2 शुगर (डायबिटीज) को नियंत्रित करने की दवा है। इसे सुबह के नाश्ते के पहले निवाले के साथ लें।"
+    }
+  ]
+}

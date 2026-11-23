@@ -1,0 +1,195 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Store {
+  id          String      @id @default(cuid())
+  name        String
+  type        String      @default("PRIVATE") // PRIVATE | JAN_AUSHADHI | HOSPITAL
+  address     String
+  area        String      // Lucknow area (e.g. Gomti Nagar, Hazratganj, Aliganj, etc.)
+  lat         Float
+  lng         Float
+  phone       String
+  ownerName   String
+  openHours   String      @default("08:00 AM - 10:00 PM")
+  isVerified  Boolean     @default(true)
+  inventory   Inventory[]
+  orders      Order[]
+  messages    Message[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([area])
+  @@index([type])
+}
+
+model Salt {
+  id                       String         @id @default(cuid())
+  name                     String         @unique // e.g. "Paracetamol"
+  category                 String         // e.g. "analgesic", "antibiotic", "anti-diabetic", "cardiac"
+  isNarrowTherapeuticIndex Boolean        @default(false)
+  medicines                MedicineSalt[]
+  searchEvents             SearchEvent[]
+
+  @@index([category])
+}
+
+model Medicine {
+  id                         String         @id @default(cuid())
+  brandName                  String
+  manufacturer               String
+  dosageForm                 String         // tablet, syrup, injection, capsule, sachet
+  packSize                   Int            @default(10) // units per pack
+  mrp                        Float
+  isGeneric                  Boolean        @default(false)
+  isJanAushadhi              Boolean        @default(false)
+  isScheduledPriceControlled Boolean        @default(false)
+  ceilingPrice               Float?
+  salts                      MedicineSalt[]
+  inventory                  Inventory[]
+  orderItems                 OrderItem[]
+  searchEvents               SearchEvent[]
+  createdAt                  DateTime       @default(now())
+  updatedAt                  DateTime       @updatedAt
+
+  @@index([brandName])
+  @@index([isJanAushadhi])
+  @@index([isGeneric])
+}
+
+model MedicineSalt {
+  id         String   @id @default(cuid())
+  medicineId String
+  medicine   Medicine @relation(fields: [medicineId], references: [id], onDelete: Cascade)
+  saltId     String
+  salt       Salt     @relation(fields: [saltId], references: [id], onDelete: Cascade)
+  strength   String   // e.g. "500mg", "650mg", "500mg/2mg"
+
+  @@unique([medicineId, saltId])
+}
+
+model Inventory {
+  id           String   @id @default(cuid())
+  storeId      String
+  store        Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  medicineId   String
+  medicine     Medicine @relation(fields: [medicineId], references: [id], onDelete: Cascade)
+  quantity     Int      @default(0)
+  sellingPrice Float
+  expiryDate   DateTime
+  batchNo      String
+  lastUpdated  DateTime @default(now()) @updatedAt
+
+  @@unique([storeId, medicineId, batchNo])
+  @@index([storeId])
+  @@index([medicineId])
+}
+
+model Order {
+  id               String      @id @default(cuid())
+  userId           String
+  user             User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  storeId          String
+  store            Store       @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  status           String      @default("HOLD_REQUESTED") // HOLD_REQUESTED | CONFIRMED | READY | COMPLETED | CANCELLED
+  mode             String      @default("PICKUP") // PICKUP | DELIVERY
+  createdAt        DateTime    @default(now())
+  holdExpiresAt    DateTime?
+  totalPaid        Float       @default(0.0)
+  totalMrpBaseline Float       @default(0.0)
+  savings          Float       @default(0.0)
+  items            OrderItem[]
+  messages         Message[]
+
+  @@index([userId])
+  @@index([storeId])
+  @@index([status])
+}
+
+model OrderItem {
+  id            String   @id @default(cuid())
+  orderId       String
+  order         Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  medicineId    String
+  medicine      Medicine @relation(fields: [medicineId], references: [id], onDelete: Cascade)
+  quantity      Int      @default(1)
+  unitPrice     Float
+  baselinePrice Float
+
+  @@index([orderId])
+  @@index([medicineId])
+}
+
+model Message {
+  id         String   @id @default(cuid())
+  orderId    String?
+  order      Order?   @relation(fields: [orderId], references: [id], onDelete: SetNull)
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  storeId    String?
+  store      Store?   @relation(fields: [storeId], references: [id], onDelete: SetNull)
+  senderRole String   // CITIZEN, STORE, ADMIN
+  text       String
+  createdAt  DateTime @default(now())
+
+  @@index([orderId])
+  @@index([userId])
+  @@index([storeId])
+}
+
+model SearchEvent {
+  id         String    @id @default(cuid())
+  query      String
+  medicineId String?
+  medicine   Medicine? @relation(fields: [medicineId], references: [id], onDelete: SetNull)
+  saltId     String?
+  salt       Salt?     @relation(fields: [saltId], references: [id], onDelete: SetNull)
+  area       String
+  lat        Float
+  lng        Float
+  createdAt  DateTime  @default(now())
+  userId     String?
+  user       User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([area])
+  @@index([createdAt])
+  @@index([query])
+}
+
+model Scheme {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  eligibility String   // JSON string representing age range, income ceiling, state, categories, conditions
+  benefitText String
+  howToApply  String
+  officialUrl String?
+  createdAt   DateTime @default(now())
+}
+
+model User {
+  id                  String        @id @default(cuid())
+  name                String
+  phone               String        @unique
+  language            String        @default("en") // "en" or "hi"
+  age                 Int
+  annualIncome        Float?
+  category            String?       // BPL, GENERAL, EWS, SC, ST, OBC
+  district            String        @default("Lucknow")
+  hasChronicCondition Boolean       @default(false)
+  savedTotal          Float         @default(0.0)
+  role                String        @default("CITIZEN") // CITIZEN, SHOPKEEPER, ADMIN
+  orders              Order[]
+  messages            Message[]
+  searchEvents        SearchEvent[]
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+
+  @@index([phone])
+}
