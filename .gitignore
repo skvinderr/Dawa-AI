@@ -8,8 +8,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Prisma SQLite DB
-/prisma/*.db
+# Prisma SQLite DB (preserve seeded dev.db for Vercel/serverless deployments)
 /prisma/*.db-journal
 
 # Environment

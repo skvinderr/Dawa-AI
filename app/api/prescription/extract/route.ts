@@ -4,6 +4,8 @@ import * as fs from "fs";
 import * as path from "path";
 import { PrescriptionExtractResponseSchema } from "@/lib/prescription";
 
+export const dynamic = "force-dynamic";
+
 function loadSamplePrescriptionFallback(patientNoteExtra = "") {
   try {
     const samplePath = path.join(process.cwd(), "data", "sample-prescription.json");
