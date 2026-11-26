@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslation } from "@/lib/i18n";
@@ -10,329 +10,149 @@ import { SavingsModal } from "./SavingsModal";
 import { SchemeNotificationBell } from "./SchemeNotificationBell";
 import { MedicineEmergencyModal } from "./MedicineEmergencyModal";
 import {
-  Activity,
-  Search,
-  FileText,
-  ShieldAlert,
-  Menu,
-  X,
-  Sparkles,
-  BarChart3,
-  Store,
-  MapPin,
-  ClipboardList,
-  TrendingDown,
-  User,
-  AlertTriangle,
-  SunMoon,
-  Type,
+  Search, FileText, ShieldAlert, Menu, X, Sparkles, BarChart3,
+  Store, MapPin, ClipboardList, TrendingDown, User, AlertTriangle, SunMoon,
+  Type, ArrowUpRight, HeartPulse,
 } from "lucide-react";
 
 export function Navbar() {
   const {
-    t,
-    language,
-    role,
-    isLargeText,
-    toggleLargeText,
-    isHighContrast,
-    toggleHighContrast,
+    t, language, role, isLargeText, toggleLargeText, isHighContrast, toggleHighContrast,
   } = useTranslation();
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [savingsModalOpen, setSavingsModalOpen] = useState(false);
   const [emergencyModalOpen, setEmergencyModalOpen] = useState(false);
-  const [lifetimeSavings, setLifetimeSavings] = useState<number>(1240);
+  const [lifetimeSavings, setLifetimeSavings] = useState(1240);
+  const hi = language === "hi";
 
   useEffect(() => {
+    let cancelled = false;
     fetch("/api/user/savings")
-      .then((res) => res.json())
+      .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
-        if (data.lifetimeSavings) {
+        if (!cancelled && typeof data?.lifetimeSavings === "number") {
           setLifetimeSavings(data.lifetimeSavings);
         }
       })
       .catch((err) => console.warn("Failed to load savings badge:", err));
+    return () => { cancelled = true; };
   }, []);
 
+  useEffect(() => setMobileMenuOpen(false), [pathname]);
+
   const citizenNav = [
-    { href: "/citizen", label: language === "hi" ? "नागरिक हब" : "Citizen Hub", icon: User },
+    { href: "/citizen", label: hi ? "नागरिक हब" : "Citizen Hub", icon: User },
     { href: "/search", label: t("nav.search"), icon: Search },
     { href: "/prescription", label: t("nav.prescription"), icon: FileText },
     { href: "/orders", label: t("nav.orders"), icon: ClipboardList },
     { href: "/schemes", label: t("nav.schemes"), icon: ShieldAlert },
     { href: "/impact", label: t("nav.impact"), icon: BarChart3 },
   ];
-
   const shopkeeperNav = [
-    { href: "/shop/dashboard", label: language === "hi" ? "दुकान डैशबोर्ड" : "Chemist Hub", icon: Store },
-    { href: "/shop/orders", label: language === "hi" ? "नागरिक होल्ड व ऑर्डर" : "Holds & Orders", icon: ClipboardList },
-    { href: "/shop/upload-bill", label: language === "hi" ? "बिल / स्टॉक अपलोड" : "Upload Invoice", icon: FileText },
-    { href: "/search", label: language === "hi" ? "दवा मूल्य सूची" : "Price Index", icon: Search },
+    { href: "/shop/dashboard", label: hi ? "दुकान डैशबोर्ड" : "Chemist Hub", icon: Store },
+    { href: "/shop/orders", label: hi ? "नागरिक होल्ड व ऑर्डर" : "Holds & Orders", icon: ClipboardList },
+    { href: "/shop/upload-bill", label: hi ? "बिल / स्टॉक अपलोड" : "Upload Invoice", icon: FileText },
+    { href: "/search", label: hi ? "दवा मूल्य सूची" : "Price Index", icon: Search },
   ];
-
   const adminNav = [
-    { href: "/admin/heatmap", label: language === "hi" ? "महामारी हीटमैप" : "Outbreak Heatmap", icon: MapPin },
-    { href: "/impact", label: language === "hi" ? "राज्य बचत रिपोर्ट" : "Statewide Impact", icon: BarChart3 },
-    { href: "/schemes", label: language === "hi" ? "योजना ऑडिट" : "Scheme Audit", icon: ShieldAlert },
-    { href: "/admin/reset", label: language === "hi" ? "डेमो रीसेट" : "Demo Reset", icon: Sparkles },
+    { href: "/admin/heatmap", label: hi ? "महामारी हीटमैप" : "Outbreak Heatmap", icon: MapPin },
+    { href: "/impact", label: hi ? "राज्य बचत रिपोर्ट" : "Statewide Impact", icon: BarChart3 },
+    { href: "/schemes", label: hi ? "योजना ऑडिट" : "Scheme Audit", icon: ShieldAlert },
+    { href: "/admin/reset", label: hi ? "डेमो रीसेट" : "Demo Reset", icon: Sparkles },
   ];
-
-  const activeNav =
-    role === "shopkeeper" ? shopkeeperNav : role === "admin" ? adminNav : citizenNav;
+  const activeNav = role === "shopkeeper" ? shopkeeperNav : role === "admin" ? adminNav : citizenNav;
+  const isCurrent = (href: string) => pathname === href || (href !== "/" && pathname.startsWith(`${href}/`));
 
   return (
     <>
-      <header className="sticky top-0 z-40 bg-white/85 backdrop-blur-xl border-b border-slate-200/80 shadow-xs transition-all">
-        <div className="w-full max-w-[1440px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-12">
-          <div className="flex items-center justify-between h-16 sm:h-20 gap-2 sm:gap-4">
-            
-            {/* Left: Brand Logo */}
-            <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0">
-              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-br from-health-600 via-health-700 to-teal-800 flex items-center justify-center text-white shadow-md shadow-health-700/20 group-hover:scale-105 group-hover:shadow-lg transition-all">
-                <Activity className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.4]" />
-              </div>
-              <div className="flex flex-col">
-                <div className="flex items-center gap-1.5">
-                  <span className="font-black text-xl sm:text-2xl tracking-tight text-slate-950 group-hover:text-health-700 transition-colors">
-                    {language === "hi" ? "दवा सेतु" : "DawaaSetu"}
-                  </span>
-                  <span className="inline-flex items-center px-1.5 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider bg-gradient-to-r from-health-100 to-emerald-100 text-health-800 border border-health-300">
-                    UP
-                  </span>
-                </div>
-                <p className="text-[11px] font-semibold text-slate-500 hidden xl:block leading-none">
-                  {language === "hi"
-                    ? "AI दवा खोज, जन औषधि विकल्प व महामारी निगरानी"
-                    : "AI Medicine Discovery & Jan Aushadhi Platform"}
-                </p>
-              </div>
+      <header className="sticky top-0 z-40 border-b border-[#e9e5ed] bg-[#fbfafc]/90 shadow-[0_8px_28px_-24px_rgba(32,12,55,.4)] backdrop-blur-2xl">
+        <div className="mx-auto max-w-[1600px] px-3 sm:px-5 lg:px-8">
+          <div className="flex h-[64px] min-w-0 items-center justify-between gap-2 sm:h-[68px] sm:gap-3 2xl:h-[78px]">
+            <Link href="/" className="group flex min-w-0 shrink items-center gap-2 sm:gap-3 2xl:shrink-0" aria-label="DawaaSetu home">
+              <span className="relative grid h-10 w-10 place-items-center overflow-hidden rounded-[15px] bg-gradient-to-br from-[#321253] via-[#25103f] to-[#17132f] text-white shadow-[0_8px_20px_-9px_rgba(38,12,66,.65)] transition duration-300 group-hover:-rotate-3 group-hover:scale-105 sm:h-11 sm:w-11">
+                <span className="absolute -right-2 -top-2 h-7 w-7 rounded-full bg-[#f02a91]/70 blur-md" />
+                <HeartPulse className="relative h-5 w-5 stroke-[2.3] sm:h-[22px] sm:w-[22px]" />
+              </span>
+              <span className="min-w-0 leading-tight">
+                <span className="flex items-center gap-1 text-[15px] font-black tracking-[-.045em] text-[#1b1230] transition group-hover:text-[#b21b73] sm:gap-1.5 sm:text-[19px]">
+                  {hi ? "दवा सेतु" : "DawaaSetu"}<span className="text-[#e72b91]">.</span>
+                  <span className="rounded-md border border-[#e7d9f2] bg-[#f1eaf7] px-1.5 py-0.5 text-[8px] font-black tracking-[.12em] text-[#583176]">UP</span>
+                </span>
+                <span className="mt-1 hidden text-[9px] font-semibold tracking-[.015em] text-slate-500 xl:block">
+                  {hi ? "स्मार्ट दवा खोज · जन औषधि · स्थानीय देखभाल" : "Medicine discovery · Jan Aushadhi · local care"}
+                </span>
+              </span>
             </Link>
 
-            {/* Center: Desktop Nav Links */}
-            <nav className="hidden lg:flex items-center gap-1 xl:gap-1.5">
+            <nav aria-label="Main navigation" className="hidden items-center gap-0.5 rounded-full border border-slate-200/80 bg-white/75 p-1 shadow-[0_4px_18px_-15px_rgba(30,12,55,.35)] 2xl:flex">
               {activeNav.map((item) => {
                 const Icon = item.icon;
-                const isActive = pathname === item.href;
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs xl:text-sm font-semibold transition-all duration-150 ${
-                      isActive
-                        ? "bg-health-600 text-white shadow-xs font-bold"
-                        : "text-slate-700 hover:text-health-700 hover:bg-slate-100/80"
-                    }`}
-                  >
-                    <Icon className={`w-4 h-4 ${isActive ? "text-white" : "text-health-600"}`} />
-                    <span>{item.label}</span>
-                  </Link>
-                );
+                const selected = isCurrent(item.href);
+                return <Link key={item.href} href={item.href} aria-current={selected ? "page" : undefined}
+                  className={`group relative inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-[11px] font-bold transition-all duration-200 2xl:px-3.5 2xl:text-xs ${selected ? "bg-[#24103f] text-white shadow-md shadow-violet-950/15" : "text-slate-600 hover:bg-[#f5eff9] hover:text-[#922565]"}`}>
+                  <Icon className={`h-3.5 w-3.5 transition-colors ${selected ? "text-[#ff82c5]" : "text-slate-400 group-hover:text-[#db288b]"}`} />{item.label}
+                </Link>;
               })}
             </nav>
 
-            {/* Right: Actions, Accessibility & Quick Emergency Trigger */}
-            <div className="hidden md:flex items-center gap-2 xl:gap-3">
-              {/* Emergency Trigger Button */}
-              <button
-                type="button"
-                onClick={() => setEmergencyModalOpen(true)}
-                className="group relative inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 border border-red-300 text-red-700 hover:text-red-900 text-xs font-black shadow-xs transition-all active:scale-95"
-                title={language === "hi" ? "आपातकालीन दवाएं (इंसुलिन, एंटी-वेनम, रेबीज)" : "Emergency Medicines (Insulin, ASVS, Rabies)"}
-                aria-label="Open emergency medicine triage modal"
-              >
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-red-600"></span>
-                </span>
-                <AlertTriangle className="w-3.5 h-3.5 text-red-600 group-hover:scale-110 transition-transform" />
-                <span>{language === "hi" ? "आपातकाल" : "Emergency"}</span>
+            <div className="hidden items-center gap-2 2xl:flex">
+              <button type="button" onClick={() => setEmergencyModalOpen(true)} title={hi ? "आपातकालीन दवाएं" : "Emergency medicine finder"} aria-label="Open emergency medicine finder"
+                className="group inline-flex h-9 items-center gap-1.5 rounded-full border border-rose-200 bg-rose-50/80 px-3 text-[10px] font-extrabold text-rose-700 transition hover:border-rose-300 hover:bg-rose-100 active:scale-[.97]">
+                <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-rose-400 opacity-50" /><span className="relative h-2 w-2 rounded-full bg-rose-600" /></span>
+                <AlertTriangle className="h-3.5 w-3.5 transition group-hover:rotate-[-8deg]" /><span>{hi ? "आपातकाल" : "Emergency"}</span>
               </button>
 
-              {/* Citizen Lifetime Savings Chip */}
-              {role === "citizen" && (
-                <button
-                  type="button"
-                  onClick={() => setSavingsModalOpen(true)}
-                  className="group inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100/90 border border-emerald-300/80 text-emerald-900 text-xs font-bold shadow-xs transition-all active:scale-95"
-                  title="View your lifetime medicine savings breakdown"
-                  aria-label="View lifetime savings"
-                >
-                  <div className="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                    <TrendingDown className="w-3.5 h-3.5 stroke-[2.5]" />
-                  </div>
-                  <span>₹{lifetimeSavings.toLocaleString("en-IN")} saved</span>
-                </button>
-              )}
+              {role === "citizen" && <button type="button" onClick={() => setSavingsModalOpen(true)} title="View lifetime medicine savings" aria-label="View lifetime savings"
+                className="inline-flex h-9 items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50/90 px-3 text-[10px] font-extrabold text-emerald-800 transition hover:bg-emerald-100 active:scale-[.97]">
+                <span className="grid h-[21px] w-[21px] place-items-center rounded-full bg-emerald-600 text-white"><TrendingDown className="h-3.5 w-3.5" /></span>₹{lifetimeSavings.toLocaleString("en-IN")} {hi ? "बचत" : "saved"}
+              </button>}
 
-              {/* Scheme Notification Bell */}
-              <SchemeNotificationBell />
-
-              {/* Accessibility Controls: Large Text & High Contrast */}
-              <div className="flex items-center bg-slate-100/90 p-1 rounded-xl border border-slate-200">
-                <button
-                  type="button"
-                  onClick={toggleLargeText}
-                  className={`p-1.5 rounded-lg text-xs font-black transition-all ${
-                    isLargeText
-                      ? "bg-slate-900 text-white shadow-xs"
-                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/80"
-                  }`}
-                  title={isLargeText ? "Normal text size" : "Large text size (A+)"}
-                  aria-label="Toggle large text mode"
-                >
-                  <Type className="w-3.5 h-3.5" />
-                </button>
-                <button
-                  type="button"
-                  onClick={toggleHighContrast}
-                  className={`p-1.5 rounded-lg text-xs font-black transition-all ${
-                    isHighContrast
-                      ? "bg-slate-900 text-white shadow-xs"
-                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/80"
-                  }`}
-                  title={isHighContrast ? "Normal contrast" : "High contrast mode"}
-                  aria-label="Toggle high contrast mode"
-                >
-                  <SunMoon className="w-3.5 h-3.5" />
-                </button>
+              <div className="flex items-center gap-1 rounded-full border border-slate-200 bg-white p-1" aria-label="Accessibility controls">
+                <button type="button" onClick={toggleLargeText} aria-label="Toggle large text mode" title={isLargeText ? "Normal text size" : "Large text size"}
+                  className={`grid h-7 w-7 place-items-center rounded-full transition ${isLargeText ? "bg-[#24103f] text-white" : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"}`}><Type className="h-3.5 w-3.5" /></button>
+                <button type="button" onClick={toggleHighContrast} aria-label="Toggle high contrast mode" title={isHighContrast ? "Normal contrast" : "High contrast"}
+                  className={`grid h-7 w-7 place-items-center rounded-full transition ${isHighContrast ? "bg-[#24103f] text-white" : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"}`}><SunMoon className="h-3.5 w-3.5" /></button>
               </div>
-
-              {/* Role Switcher Pill */}
               <RoleSwitcher />
-
-              {/* Language Switcher */}
               <LanguageToggle />
             </div>
 
-            {/* Mobile Action Controls */}
-            <div className="flex md:hidden items-center gap-1.5">
-              <button
-                type="button"
-                onClick={() => setEmergencyModalOpen(true)}
-                className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-red-100 border border-red-300 text-red-800 text-xs font-black"
-                aria-label="Emergency Medicines"
-              >
-                <AlertTriangle className="w-3 h-3 text-red-600" />
-                <span>SOS</span>
-              </button>
-
-              {role === "citizen" && (
-                <button
-                  type="button"
-                  onClick={() => setSavingsModalOpen(true)}
-                  className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs font-bold"
-                  aria-label="View savings"
-                >
-                  <TrendingDown className="w-3 h-3 text-emerald-600" />
-                  <span>₹{lifetimeSavings}</span>
-                </button>
-              )}
-
+            <div className="flex shrink-0 items-center gap-1 sm:gap-1.5 2xl:hidden">
+              <button type="button" onClick={() => setEmergencyModalOpen(true)} aria-label="Emergency medicines" className="inline-flex h-9 items-center gap-1.5 rounded-full border border-rose-200 bg-rose-50 px-2.5 text-[10px] font-black text-rose-700 transition hover:bg-rose-100 sm:px-3"><AlertTriangle className="h-3.5 w-3.5" /><span className="hidden sm:inline">{hi ? "आपातकाल" : "SOS"}</span></button>
+              {role === "citizen" && <button type="button" onClick={() => setSavingsModalOpen(true)} aria-label="View savings" className="hidden h-9 items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 text-[10px] font-extrabold text-emerald-800 sm:inline-flex"><TrendingDown className="h-3.5 w-3.5" /><span>₹{lifetimeSavings.toLocaleString("en-IN")}</span></button>}
               <SchemeNotificationBell />
               <LanguageToggle />
-
-              <button
-                type="button"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2 rounded-xl text-slate-800 hover:bg-slate-100 transition-colors"
-                aria-label="Toggle Navigation Menu"
-              >
-                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              <button type="button" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"} aria-expanded={mobileMenuOpen}
+                className={`grid h-9 w-9 place-items-center rounded-full border transition ${mobileMenuOpen ? "border-[#321253] bg-[#24103f] text-white" : "border-slate-200 bg-white text-[#28153e] hover:bg-[#f5eff9]"}`}>
+                {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
               </button>
             </div>
-
           </div>
+
+          <nav aria-label="Main navigation" className="hidden items-center gap-1 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:flex 2xl:hidden">
+            {activeNav.map((item) => {
+              const Icon = item.icon; const selected = isCurrent(item.href);
+              return <Link key={item.href} href={item.href} aria-current={selected ? "page" : undefined} className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-3 py-2 text-xs font-bold transition ${selected ? "bg-[#24103f] text-white" : "text-slate-600 hover:bg-[#f5eff9] hover:text-[#922565]"}`}><Icon className={`h-3.5 w-3.5 ${selected ? "text-[#ff82c5]" : "text-slate-400"}`} />{item.label}</Link>;
+            })}
+          </nav>
         </div>
 
-        {/* Mobile Navigation Drawer */}
-        {mobileMenuOpen && (
-          <div className="md:hidden border-t border-slate-200 bg-white/95 backdrop-blur-xl px-4 pt-3 pb-6 space-y-4 shadow-xl animate-in fade-in slide-in-from-top-2 duration-150">
-            <div className="flex items-center justify-between pb-2 border-b border-slate-100">
-              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                Accessibility
-              </span>
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={toggleLargeText}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-bold border ${
-                    isLargeText
-                      ? "bg-slate-900 text-white border-slate-900"
-                      : "bg-slate-50 text-slate-700 border-slate-200"
-                  }`}
-                  aria-label="Toggle Large Text"
-                >
-                  Large Text (A+)
-                </button>
-                <button
-                  type="button"
-                  onClick={toggleHighContrast}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-bold border ${
-                    isHighContrast
-                      ? "bg-slate-900 text-white border-slate-900"
-                      : "bg-slate-50 text-slate-700 border-slate-200"
-                  }`}
-                  aria-label="Toggle High Contrast"
-                >
-                  High Contrast
-                </button>
-              </div>
-            </div>
+        {mobileMenuOpen && <div className="absolute left-0 right-0 top-full border-t border-slate-200/80 bg-[#fbfafc]/[.98] px-4 pb-5 pt-4 shadow-[0_28px_45px_-32px_rgba(24,11,42,.6)] backdrop-blur-2xl lg:hidden sm:px-6">
+          <div className="mx-auto max-w-2xl space-y-4">
+            <div className="flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white/80 p-3"><span className="text-[10px] font-black uppercase tracking-[.15em] text-slate-500">{hi ? "सुलभता" : "Accessibility"}</span><div className="flex gap-2"><button type="button" onClick={toggleLargeText} className={`rounded-full border px-3 py-2 text-[10px] font-bold transition ${isLargeText ? "border-[#24103f] bg-[#24103f] text-white" : "border-slate-200 bg-white text-slate-700"}`}><Type className="mr-1 inline h-3 w-3" />A+</button><button type="button" onClick={toggleHighContrast} className={`rounded-full border px-3 py-2 text-[10px] font-bold transition ${isHighContrast ? "border-[#24103f] bg-[#24103f] text-white" : "border-slate-200 bg-white text-slate-700"}`}><SunMoon className="mr-1 inline h-3 w-3" />{hi ? "कॉन्ट्रास्ट" : "Contrast"}</button></div></div>
 
-            <div className="pt-1 pb-2">
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
-                Switch Role / पोर्टल चुनें
-              </p>
-              <RoleSwitcher />
-            </div>
+            <div className="rounded-2xl border border-slate-200 bg-white/80 p-3"><p className="mb-2 px-1 text-[10px] font-black uppercase tracking-[.15em] text-slate-400">{hi ? "पोर्टल चुनें" : "Your workspace"}</p><RoleSwitcher /></div>
 
-            <div className="space-y-1 border-t border-slate-100 pt-3">
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
-                Navigation
-              </p>
-              {activeNav.map((item) => {
-                const Icon = item.icon;
-                const isActive = pathname === item.href;
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-semibold ${
-                      isActive
-                        ? "bg-health-600 text-white shadow-xs"
-                        : "text-slate-800 hover:bg-slate-50"
-                    }`}
-                  >
-                    <Icon className={`w-4 h-4 ${isActive ? "text-white" : "text-health-600"}`} />
-                    <span>{item.label}</span>
-                  </Link>
-                );
-              })}
-            </div>
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">{activeNav.map((item) => { const Icon = item.icon; const selected = isCurrent(item.href); return <Link key={item.href} href={item.href} onClick={() => setMobileMenuOpen(false)} aria-current={selected ? "page" : undefined} className={`flex min-h-[62px] items-center gap-2.5 rounded-2xl border px-3 py-3 text-xs font-bold transition ${selected ? "border-[#321253] bg-[#24103f] text-white shadow-md shadow-violet-950/10" : "border-slate-200 bg-white text-slate-700 hover:border-[#e4cde0] hover:bg-[#fff8fc]"}`}><span className={`grid h-8 w-8 shrink-0 place-items-center rounded-xl ${selected ? "bg-white/10 text-[#ff82c5]" : "bg-[#f3edf8] text-[#70438d]"}`}><Icon className="h-4 w-4" /></span><span className="leading-snug">{item.label}</span></Link>; })}</div>
 
-            <div className="pt-2 border-t border-slate-100">
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  setEmergencyModalOpen(true);
-                }}
-                className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-red-600 text-white font-extrabold text-sm shadow-md"
-              >
-                <AlertTriangle className="w-4 h-4" />
-                <span>{language === "hi" ? "आपातकालीन दवाएं देखें" : "Open Emergency Medicine Finder"}</span>
-              </button>
-            </div>
+            <button type="button" onClick={() => { setMobileMenuOpen(false); setEmergencyModalOpen(true); }} className="flex w-full items-center justify-between rounded-2xl bg-gradient-to-r from-rose-600 to-[#d92779] px-4 py-3.5 text-left text-sm font-extrabold text-white shadow-lg shadow-rose-900/15"><span className="inline-flex items-center gap-2"><AlertTriangle className="h-4 w-4" />{hi ? "आपातकालीन दवाएं खोजें" : "Open emergency medicine finder"}</span><ArrowUpRight className="h-4 w-4" /></button>
+            {role === "citizen" && <button type="button" onClick={() => { setMobileMenuOpen(false); setSavingsModalOpen(true); }} className="flex w-full items-center justify-between rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-extrabold text-emerald-800"><span className="inline-flex items-center gap-2"><TrendingDown className="h-4 w-4" />{hi ? "आपकी कुल बचत" : "Your lifetime savings"}</span><span>₹{lifetimeSavings.toLocaleString("en-IN")}</span></button>}
           </div>
-        )}
+        </div>}
       </header>
 
-      {/* Lifetime Savings Modal */}
       <SavingsModal isOpen={savingsModalOpen} onClose={() => setSavingsModalOpen(false)} />
-
-      {/* Emergency Medicine Triage Modal */}
       <MedicineEmergencyModal isOpen={emergencyModalOpen} onClose={() => setEmergencyModalOpen(false)} />
     </>
   );

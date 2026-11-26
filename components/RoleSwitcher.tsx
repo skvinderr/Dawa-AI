@@ -2,79 +2,67 @@
 
 import React from "react";
 import { useTranslation, UserRole } from "@/lib/i18n";
-import { User, Store, ShieldCheck, LogIn } from "lucide-react";
-import Link from "next/link";
+import { User, Store, ShieldCheck, type LucideIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-export function RoleSwitcher() {
-  const { role, setRole, dict } = useTranslation();
-  const router = useRouter();
+const roles: {
+  id: UserRole;
+  en: string;
+  hi: string;
+  compact: string;
+  icon: LucideIcon;
+  route: string;
+}[] = [
+    { id: "citizen", en: "Citizen", hi: "नागरिक", compact: "Citizen", icon: User, route: "/citizen" },
+    { id: "shopkeeper", en: "Chemist", hi: "केमिस्ट", compact: "Chemist", icon: Store, route: "/shop/dashboard" },
+    { id: "admin", en: "Health Dept", hi: "स्वास्थ्य", compact: "Health", icon: ShieldCheck, route: "/admin/heatmap" },
+  ];
 
-  const handleRoleChange = (newRole: UserRole) => {
+export function RoleSwitcher() {
+  const { role, setRole, language } = useTranslation();
+  const router = useRouter();
+  const hi = language === "hi";
+
+  const changeRole = (newRole: UserRole, route: string) => {
+    if (newRole === role) return;
     setRole(newRole);
-    if (newRole === "citizen") {
-      router.push("/citizen");
-    } else if (newRole === "shopkeeper") {
-      router.push("/shop/dashboard");
-    } else if (newRole === "admin") {
-      router.push("/admin/heatmap");
-    }
+    router.push(route);
   };
 
   return (
-    <div className="flex items-center gap-2">
-      <div className="relative inline-flex items-center rounded-2xl bg-health-50/80 p-1 border border-health-200 shadow-sm">
-        <button
-          type="button"
-          onClick={() => handleRoleChange("citizen")}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-medium transition-all ${
-            role === "citizen"
-              ? "bg-health-700 text-white shadow-sm font-semibold"
-              : "text-slate-600 hover:text-health-800 hover:bg-health-100/60"
-          }`}
-          title="Switch to Citizen Discovery Portal"
-        >
-          <User className="w-3.5 h-3.5" />
-          <span className="hidden sm:inline">Citizen</span>
-        </button>
+    <div
+      role="group"
+      aria-label={hi ? "पोर्टल बदलें" : "Switch workspace"}
+      className="inline-flex w-fit max-w-full items-center gap-0.5 rounded-full border border-[#e8e0ed] bg-[#f4f1f7] p-1 shadow-inner shadow-violet-950/[.025]"
+    >
+      {roles.map(({ id, en, hi: hindi, compact, icon: Icon, route }) => {
+        const selected = role === id;
+        const label = hi ? hindi : en;
+        const description = id === "citizen"
+          ? (hi ? "नागरिक पोर्टल पर जाएं" : "Switch to Citizen Discovery")
+          : id === "shopkeeper"
+            ? (hi ? "फार्मेसी पोर्टल पर जाएं" : "Switch to Chemist Portal")
+            : (hi ? "स्वास्थ्य विभाग पोर्टल पर जाएं" : "Switch to Health Department");
 
-        <button
-          type="button"
-          onClick={() => handleRoleChange("shopkeeper")}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-medium transition-all ${
-            role === "shopkeeper"
-              ? "bg-emerald-700 text-white shadow-sm font-semibold"
-              : "text-slate-600 hover:text-health-800 hover:bg-health-100/60"
-          }`}
-          title="Switch to Chemist & Pharmacist Portal"
-        >
-          <Store className="w-3.5 h-3.5" />
-          <span className="hidden sm:inline">Chemist</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => handleRoleChange("admin")}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-medium transition-all ${
-            role === "admin"
-              ? "bg-teal-800 text-white shadow-sm font-semibold"
-              : "text-slate-600 hover:text-health-800 hover:bg-health-100/60"
-          }`}
-          title="Switch to UP Health Department Surveillance"
-        >
-          <ShieldCheck className="w-3.5 h-3.5" />
-          <span className="hidden sm:inline">Health Dept</span>
-        </button>
-      </div>
-
-      <Link
-        href="/login"
-        className="hidden md:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-bold text-slate-600 hover:text-health-800 hover:bg-health-50 border border-slate-200 hover:border-health-300 transition-colors"
-        title="Choose specific citizen persona or pharmacy"
-      >
-        <LogIn className="w-3.5 h-3.5 text-health-600" />
-        <span>Login</span>
-      </Link>
+        return (
+          <button
+            key={id}
+            type="button"
+            onClick={() => changeRole(id, route)}
+            aria-pressed={selected}
+            aria-label={`${description}${selected ? (hi ? " (वर्तमान)" : " (current)") : ""}`}
+            title={description}
+            className={`group inline-flex min-h-8 min-w-8 items-center justify-center gap-1.5 rounded-full px-2.5 text-[10px] font-extrabold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e52a91] focus-visible:ring-offset-2 sm:px-3 sm:text-[11px] ${selected
+                ? "bg-[#25103f] text-white shadow-[0_4px_12px_-5px_rgba(37,16,63,.65)]"
+                : "text-slate-500 hover:bg-white hover:text-[#8f2869]"
+              }`}
+          >
+            <Icon className={`h-3.5 w-3.5 shrink-0 transition-colors ${selected ? "text-[#ff91ca]" : "text-slate-400 group-hover:text-[#de3294]"}`} aria-hidden="true" />
+            <span className="hidden sm:inline">{label}</span>
+            <span className="sm:hidden">{hi ? hindi : compact}</span>
+          </button>
+        );
+      })}
     </div>
   );
 }

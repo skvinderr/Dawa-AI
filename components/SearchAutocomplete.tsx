@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Search, Sparkles, ArrowRight, Pill, History } from "lucide-react";
 import { useTranslation } from "@/lib/i18n";
 
@@ -37,188 +37,116 @@ export function SearchAutocomplete({
   size?: "normal" | "large";
 }) {
   const { language } = useTranslation();
+  const hi = language === "hi";
   const [isOpen, setIsOpen] = useState(false);
-  const [activeIndex, setActiveIndex] = useState<number>(-1);
+  const [activeIndex, setActiveIndex] = useState(-1);
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const isLarge = size === "large";
 
-  // Filter suggestions based on input
   const filteredSuggestions = value.trim()
-    ? COMMON_SUGGESTIONS.filter(
-        (s) =>
-          s.name.toLowerCase().includes(value.toLowerCase()) ||
-          s.category.toLowerCase().includes(value.toLowerCase())
-      )
+    ? COMMON_SUGGESTIONS.filter((item) =>
+      item.name.toLowerCase().includes(value.toLowerCase()) ||
+      item.category.toLowerCase().includes(value.toLowerCase())
+    )
     : COMMON_SUGGESTIONS.slice(0, 5);
 
-  // Close when clicking outside
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    }
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) setIsOpen(false);
+    };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Keyboard navigation
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (!isOpen) {
-      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
-        setIsOpen(true);
-        return;
-      }
-    }
-
-    switch (e.key) {
-      case "ArrowDown":
-        e.preventDefault();
-        setActiveIndex((prev) =>
-          prev < filteredSuggestions.length - 1 ? prev + 1 : 0
-        );
-        break;
-
-      case "ArrowUp":
-        e.preventDefault();
-        setActiveIndex((prev) =>
-          prev > 0 ? prev - 1 : filteredSuggestions.length - 1
-        );
-        break;
-
-      case "Enter":
-        e.preventDefault();
-        if (activeIndex >= 0 && filteredSuggestions[activeIndex]) {
-          const selected = filteredSuggestions[activeIndex].name.split(" ")[0];
-          onChange(selected);
-          onSearch(selected);
-        } else {
-          onSearch(value);
-        }
-        setIsOpen(false);
-        break;
-
-      case "Escape":
-        setIsOpen(false);
-        setActiveIndex(-1);
-        break;
-
-      default:
-        break;
-    }
-  };
-
-  const handleSelectSuggestion = (name: string) => {
-    const cleanName = name.split(" ")[0];
-    onChange(cleanName);
-    onSearch(cleanName);
+  const selectSuggestion = (name: string) => {
+    const query = name.split(" ")[0];
+    onChange(query);
+    onSearch(query);
     setIsOpen(false);
+    setActiveIndex(-1);
   };
 
-  const isLarge = size === "large";
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      if (!isOpen) setIsOpen(true);
+      event.preventDefault();
+      if (event.key === "ArrowDown") setActiveIndex((current) => current < filteredSuggestions.length - 1 ? current + 1 : 0);
+      else setActiveIndex((current) => current > 0 ? current - 1 : filteredSuggestions.length - 1);
+      return;
+    }
+    if (event.key === "Enter") {
+      event.preventDefault();
+      if (activeIndex >= 0 && filteredSuggestions[activeIndex]) selectSuggestion(filteredSuggestions[activeIndex].name);
+      else { onSearch(value); setIsOpen(false); }
+    }
+    if (event.key === "Escape") { setIsOpen(false); setActiveIndex(-1); }
+  };
+
+  const inputPlaceholder = placeholder || (hi
+    ? "दवा का नाम, सॉल्ट या बीमारी खोजें…"
+    : "Search a medicine, active ingredient, or condition…");
 
   return (
-    <div className={`relative w-full ${className}`} ref={containerRef}>
-      <div className="relative flex items-center">
-        <label htmlFor="search-autocomplete-input" className="sr-only">
-          {placeholder || "Search medicines"}
-        </label>
-        <Search
-          className={`absolute left-4 text-slate-400 pointer-events-none ${
-            isLarge ? "w-5 h-5 sm:w-6 sm:h-6" : "w-4 h-4"
-          }`}
-          aria-hidden="true"
-        />
+    <div ref={containerRef} className={`relative w-full ${className}`}>
+      <div className={`relative flex items-center gap-2 rounded-[1rem] border bg-white transition-all duration-200 ${isOpen ? "border-[#d9b5db] shadow-[0_0_0_4px_rgba(226,38,145,.08)]" : "border-slate-200 hover:border-slate-300"} ${isLarge ? "p-1.5 sm:p-2" : "p-1"}`}>
+        <label htmlFor="search-autocomplete-input" className="sr-only">{inputPlaceholder}</label>
+        <span className={`ml-2 grid shrink-0 place-items-center rounded-xl bg-[#f5eff8] text-[#7b5792] ${isLarge ? "h-10 w-10 sm:h-11 sm:w-11" : "h-8 w-8"}`}>
+          <Search className={isLarge ? "h-[18px] w-[18px]" : "h-4 w-4"} aria-hidden="true" />
+        </span>
         <input
           id="search-autocomplete-input"
           ref={inputRef}
-          type="text"
+          type="search"
           role="combobox"
           aria-autocomplete="list"
-          aria-expanded={isOpen}
+          aria-expanded={isOpen && filteredSuggestions.length > 0}
           aria-controls="search-suggestions-listbox"
-          aria-activedescendant={
-            activeIndex >= 0 ? `search-suggestion-${activeIndex}` : undefined
-          }
-          aria-label={placeholder || "Search medicine name, active salt, or disease"}
+          aria-activedescendant={activeIndex >= 0 ? `search-suggestion-${activeIndex}` : undefined}
+          aria-label={inputPlaceholder}
           value={value}
-          onChange={(e) => {
-            onChange(e.target.value);
-            setIsOpen(true);
-            setActiveIndex(-1);
-          }}
+          onChange={(event) => { onChange(event.target.value); setIsOpen(true); setActiveIndex(-1); }}
           onFocus={() => setIsOpen(true)}
           onKeyDown={handleKeyDown}
-          placeholder={
-            placeholder ||
-            (language === "hi"
-              ? "दवा का नाम, साल्ट या बीमारी खोजें (उदा. पैरासिटामोल, मेटफॉर्मिन)..."
-              : "Search medicine name, salt, or disease (e.g. Paracetamol, Metformin)...")
-          }
-          className={`w-full rounded-2xl bg-white border border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-3 focus:ring-health-500/30 focus:border-health-600 transition-all shadow-soft ${
-            isLarge
-              ? "pl-12 sm:pl-14 pr-32 py-4 sm:py-5 text-sm sm:text-base font-medium"
-              : "pl-10 pr-24 py-2.5 text-xs font-normal"
-          }`}
+          placeholder={inputPlaceholder}
+          className={`min-w-0 flex-1 border-0 bg-transparent text-[#251b32] outline-none placeholder:text-slate-400 focus:ring-0 ${isLarge ? "h-11 text-xs font-medium sm:h-12 sm:text-sm" : "h-9 text-xs"}`}
         />
-
         <button
           type="button"
-          onClick={() => onSearch(value)}
-          aria-label="Search"
-          className={`absolute right-2 px-5 rounded-xl bg-health-700 hover:bg-health-800 active:scale-95 text-white font-extrabold transition-all shadow-xs flex items-center gap-1.5 ${
-            isLarge ? "py-2.5 sm:py-3.5 text-xs sm:text-sm" : "py-1.5 text-xs"
-          }`}
+          onClick={() => { onSearch(value); setIsOpen(false); }}
+          aria-label={hi ? "दवा खोजें" : "Search medicines"}
+          className={`group inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#e42691] to-[#bd2b9d] font-extrabold text-white shadow-[0_6px_16px_-8px_rgba(196,31,135,.75)] transition duration-200 hover:-translate-y-0.5 hover:from-[#ce1b7e] hover:to-[#9e258a] active:translate-y-0 active:scale-[.98] ${isLarge ? "h-10 px-3.5 text-xs sm:h-11 sm:px-5 sm:text-sm" : "h-8 px-3 text-xs"}`}
         >
-          <span>{language === "hi" ? "खोजें" : "Search"}</span>
-          <ArrowRight className="w-4 h-4" />
+          <span>{hi ? "खोजें" : "Search"}</span><ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
         </button>
       </div>
 
-      {/* Autocomplete Dropdown Listbox */}
       {isOpen && filteredSuggestions.length > 0 && (
-        <ul
-          id="search-suggestions-listbox"
-          role="listbox"
-          aria-label="Search suggestions"
-          className="absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl shadow-xl border border-slate-200 py-2 z-50 animate-in fade-in slide-in-from-top-1 duration-150 divide-y divide-slate-100 max-h-72 overflow-y-auto"
-        >
-          <li className="px-4 py-1.5 text-[10px] font-extrabold text-slate-400 uppercase tracking-wider flex items-center justify-between">
-            <span>{language === "hi" ? "सुझाव (कीबोर्ड से चुनें)" : "Suggestions (Use ↑↓ arrows)"}</span>
-            <span className="font-mono text-[9px]">ESC to close</span>
-          </li>
-          {filteredSuggestions.map((item, idx) => {
-            const isHighlighted = idx === activeIndex;
-            return (
-              <li
-                key={item.name}
-                id={`search-suggestion-${idx}`}
-                role="option"
-                aria-selected={isHighlighted}
-                onMouseEnter={() => setActiveIndex(idx)}
-                onClick={() => handleSelectSuggestion(item.name)}
-                className={`px-4 py-2.5 cursor-pointer flex items-center justify-between gap-3 text-xs transition-colors ${
-                  isHighlighted ? "bg-health-50 text-health-950 font-bold" : "text-slate-700 hover:bg-slate-50"
-                }`}
-              >
-                <div className="flex items-center gap-2.5">
-                  <Pill className="w-3.5 h-3.5 text-health-600 shrink-0" />
-                  <span className="truncate">{item.name}</span>
-                </div>
-                <div className="flex items-center gap-1.5 shrink-0">
-                  {item.isJanAushadhiGeneric && (
-                    <span className="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-1.5 py-0.2 rounded">
-                      Jan Aushadhi
-                    </span>
-                  )}
-                  <span className="text-[10px] text-slate-400 font-medium">
-                    {item.category}
-                  </span>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
+        <div className="absolute left-0 right-0 top-full z-50 mt-2 overflow-hidden rounded-[1.25rem] border border-[#e9e1ed] bg-white shadow-[0_24px_60px_-24px_rgba(32,12,55,.32)] animate-in fade-in slide-in-from-top-1 duration-150">
+          <div className="flex items-center justify-between border-b border-slate-100 bg-[#fcfafd] px-4 py-3">
+            <span className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[.13em] text-[#70557e]"><Sparkles className="h-3.5 w-3.5 text-[#df3797]" />{hi ? "आपके लिए सुझाव" : value.trim() ? "Matching medicines" : "Popular searches"}</span>
+            <span className="inline-flex items-center gap-1 text-[9px] font-medium text-slate-400"><History className="h-3 w-3" />↑↓ {hi ? "चुनें" : "to navigate"} · Esc</span>
+          </div>
+          <ul id="search-suggestions-listbox" role="listbox" aria-label={hi ? "दवा खोज सुझाव" : "Medicine search suggestions"} className="max-h-[min(22rem,55vh)] divide-y divide-slate-100 overflow-y-auto p-1.5">
+            {filteredSuggestions.map((item, index) => {
+              const highlighted = index === activeIndex;
+              return (
+                <li key={item.name} id={`search-suggestion-${index}`} role="option" aria-selected={highlighted} onMouseEnter={() => setActiveIndex(index)} onClick={() => selectSuggestion(item.name)}
+                  className={`flex cursor-pointer items-center justify-between gap-3 rounded-xl px-3 py-3 transition-colors ${highlighted ? "bg-[#f9edf5]" : "hover:bg-[#faf8fb]"}`}>
+                  <div className="flex min-w-0 items-center gap-3">
+                    <span className={`grid h-9 w-9 shrink-0 place-items-center rounded-xl ${highlighted ? "bg-white text-[#d52b8a] shadow-sm" : "bg-[#f5eff8] text-[#795993]"}`}><Pill className="h-4 w-4" /></span>
+                    <span className="min-w-0"><span className={`block truncate text-xs font-bold sm:text-sm ${highlighted ? "text-[#51204b]" : "text-slate-800"}`}>{item.name}</span><span className="mt-1 block text-[10px] font-medium text-slate-400">{item.category}</span></span>
+                  </div>
+                  <div className="flex shrink-0 items-center gap-2">
+                    {item.isJanAushadhiGeneric && <span className="hidden rounded-full border border-emerald-200 bg-emerald-50 px-2 py-1 text-[9px] font-extrabold text-emerald-700 sm:inline-flex">Jan Aushadhi</span>}
+                    <ArrowRight className={`h-4 w-4 transition ${highlighted ? "translate-x-0 text-[#d52b8a]" : "-translate-x-1 text-slate-300 opacity-0"}`} />
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+          <div className="border-t border-slate-100 px-4 py-2 text-[9px] text-slate-400">{hi ? "सटीक सॉल्ट-मिलान के लिए दवा का नाम या सक्रिय घटक लिखें" : "Search by medicine name or active ingredient for an exact match"}</div>
+        </div>
       )}
     </div>
   );
