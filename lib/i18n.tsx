@@ -16,6 +16,11 @@ interface LanguageContextType {
   setRole: (role: UserRole) => void;
   t: (keyPath: string) => string;
   dict: typeof en;
+  // Accessibility
+  isLargeText: boolean;
+  toggleLargeText: () => void;
+  isHighContrast: boolean;
+  toggleHighContrast: () => void;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -23,15 +28,34 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguageState] = useState<Language>("en");
   const [role, setRoleState] = useState<UserRole>("citizen");
+  const [isLargeText, setIsLargeTextState] = useState<boolean>(false);
+  const [isHighContrast, setIsHighContrastState] = useState<boolean>(false);
 
   useEffect(() => {
+    // 1. Language persistence
     const savedLang = localStorage.getItem("dawaasetu_lang") as Language;
     if (savedLang === "en" || savedLang === "hi") {
       setLanguageState(savedLang);
     }
+
+    // 2. Role persistence
     const savedRole = localStorage.getItem("dawaasetu_role") as UserRole;
     if (savedRole === "citizen" || savedRole === "shopkeeper" || savedRole === "admin") {
       setRoleState(savedRole);
+    }
+
+    // 3. Accessibility: Large Text
+    const savedLargeText = localStorage.getItem("dawaasetu_large_text") === "true";
+    if (savedLargeText) {
+      setIsLargeTextState(true);
+      document.documentElement.classList.add("large-text");
+    }
+
+    // 4. Accessibility: High Contrast
+    const savedHighContrast = localStorage.getItem("dawaasetu_high_contrast") === "true";
+    if (savedHighContrast) {
+      setIsHighContrastState(true);
+      document.documentElement.classList.add("high-contrast");
     }
   }, []);
 
@@ -43,6 +67,32 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const setRole = (newRole: UserRole) => {
     setRoleState(newRole);
     localStorage.setItem("dawaasetu_role", newRole);
+  };
+
+  const toggleLargeText = () => {
+    setIsLargeTextState((prev) => {
+      const next = !prev;
+      localStorage.setItem("dawaasetu_large_text", String(next));
+      if (next) {
+        document.documentElement.classList.add("large-text");
+      } else {
+        document.documentElement.classList.remove("large-text");
+      }
+      return next;
+    });
+  };
+
+  const toggleHighContrast = () => {
+    setIsHighContrastState((prev) => {
+      const next = !prev;
+      localStorage.setItem("dawaasetu_high_contrast", String(next));
+      if (next) {
+        document.documentElement.classList.add("high-contrast");
+      } else {
+        document.documentElement.classList.remove("high-contrast");
+      }
+      return next;
+    });
   };
 
   const dict = translations[language] || en;
@@ -70,7 +120,20 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, role, setRole, t, dict }}>
+    <LanguageContext.Provider
+      value={{
+        language,
+        setLanguage,
+        role,
+        setRole,
+        t,
+        dict,
+        isLargeText,
+        toggleLargeText,
+        isHighContrast,
+        toggleHighContrast,
+      }}
+    >
       {children}
     </LanguageContext.Provider>
   );

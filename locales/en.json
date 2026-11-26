@@ -12,7 +12,10 @@
     "shopkeeper": "Pharmacist Portal",
     "admin": "Health Dept Heatmap",
     "impact": "Savings Impact",
-    "role": "Role"
+    "role": "Role",
+    "emergency": "Medicine Emergency",
+    "a11y_text": "Large Text",
+    "a11y_contrast": "High Contrast"
   },
   "roles": {
     "citizen": "Citizen",
@@ -20,23 +23,75 @@
     "admin": "Admin / Health Dept"
   },
   "hero": {
-    "badge": "Ayushman Bharat & PM Jan Aushadhi Connected",
-    "heading": "Find Medicines & Cheaper Generics Near You",
+    "badge": "AI Kaushal 2026 • Uttar Pradesh Healthcare Platform",
+    "heading": "Find Nearby Medicines & 70%+ Cheaper Jan Aushadhi Generics",
     "subheading": "Real-time stock across Lucknow, Varanasi, Kanpur, Gorakhpur, Prayagraj & UP districts. Never run store-to-store again.",
-    "search_placeholder": "Search medicine name, salt, or disease (e.g. Paracetamol, Metformin, Azithromycin)...",
+    "search_placeholder": "Search medicine name, active salt, or disease (e.g. Paracetamol, Metformin, Azithral)...",
     "search_button": "Search Stock",
     "or_divider": "OR",
     "upload_prescription": "Upload Prescription (AI Scan)",
-    "upload_hint": "Supports Hindi & English handwritten doctor prescriptions"
+    "upload_hint": "Supports Hindi & English handwritten doctor prescriptions",
+    "emergency_button": "🚨 Medicine Emergency",
+    "emergency_hint": "Instant lookup for Insulin, Anti-Snake Venom, Anti-Rabies & Epinephrine",
+    "live_savings": "Citizen Medicine Savings",
+    "verified_stores": "Lucknow Pharmacies Live",
+    "certified_generics": "Jan Aushadhi Generics",
+    "districts_surveillance": "Districts Monitored"
   },
-  "quick_stats": {
-    "pharmacies": "500+ Verified UP Stores",
-    "generics": "1,800+ Jan Aushadhi Generics",
-    "savings": "Up to 85% Savings",
-    "districts": "75 Districts of UP"
+  "emergency": {
+    "title": "Urgent Emergency Medicines Triage",
+    "subtitle": "Immediate 24x7 stock and nearest hospital/pharmacy locator for life-critical emergencies across Lucknow",
+    "disclaimer": "EMERGENCY NOTICE: For severe trauma, venomous bites, or anaphylactic shock, call 108 immediately while proceeding to the nearest emergency room.",
+    "call_now": "Call Now",
+    "directions": "Get Directions",
+    "open_24_7": "24x7 Emergency Open",
+    "in_stock": "In Stock",
+    "out_of_stock": "Out of Stock",
+    "cold_chain": "Cold Chain Verified",
+    "distance": "away",
+    "items": {
+      "insulin": {
+        "name": "Human Insulin (Regular / 30/70)",
+        "indication": "Diabetic ketoacidosis, uncontrolled hyperglycemia, and urgent insulin refill",
+        "category": "Endocrine Emergency"
+      },
+      "asvs": {
+        "name": "Anti-Snake Venom Serum (ASVS Polyvalent)",
+        "indication": "Viper, Cobra, and Krait venomous snake bites (Lyophilized 10ml vial)",
+        "category": "Toxicology Emergency"
+      },
+      "rabies": {
+        "name": "Anti-Rabies Vaccine (ARV - Rabipur / Abhayrab)",
+        "indication": "Post-exposure prophylaxis for dog, monkey, and animal bite wounds",
+        "category": "Infectious Emergency"
+      },
+      "epinephrine": {
+        "name": "Epinephrine / Adrenaline Injection (1:1000)",
+        "indication": "Severe anaphylactic shock, severe acute allergic reactions, and airway spasm",
+        "category": "Resuscitation Emergency"
+      }
+    }
   },
-  "disclaimer": {
-    "medical": "Confirm with your doctor or pharmacist before switching."
+  "how_it_works": {
+    "tag": "How DawaaSetu Works",
+    "title": "3 Simple Steps to Quality Healthcare Savings",
+    "subtitle": "Engineered for simplicity on any mobile browser across urban and rural Uttar Pradesh.",
+    "step1_title": "1. Search or Upload Rx",
+    "step1_desc": "Type any brand name or snap a photo of a doctor's handwritten prescription. Our Gemini Vision OCR identifies salts instantly.",
+    "step2_title": "2. Compare & Save 70%+",
+    "step2_desc": "Our deterministic engine finds exact salt-matched Jan Aushadhi alternatives, nearby stock, and government subsidies.",
+    "step3_title": "3. 2-Hour Pickup Hold",
+    "step3_desc": "Reserve your medicine counter stock with zero prepayment. Walk in, pick up, or chat directly with the chemist."
+  },
+  "features": {
+    "tag": "Core Pillars",
+    "title": "Technology Built for Uttar Pradesh Healthcare",
+    "card1_title": "Deterministic Generic Substitution",
+    "card1_desc": "Fair comparisons on price-per-unit, exact salt composition, and narrow therapeutic index safety warnings. Never hallucinated.",
+    "card2_title": "Zero-Prepayment 2-Hour Hold",
+    "card2_desc": "Temporary inventory reservation locks stock so citizens don't travel in vain. Transparent counter pickup with live status stepper.",
+    "card3_title": "Syndromic Outbreak Early Warning",
+    "card3_desc": "Aggregates over-the-counter fever and dehydration demand to signal disease surges days before hospital beds fill up."
   },
   "schemes": {
     "badge": "Ayushman Bharat & UP State Entitlements",
@@ -73,6 +128,52 @@
     "filter_maternal": "Maternal & Child Care",
     "filter_universal": "Universal Jan Aushadhi"
   },
+  "demo_guide": {
+    "button": "Demo Guide",
+    "title": "Hackathon Demo Walkthrough",
+    "subtitle": "Follow these 6 core end-to-end flows built for the AI Kaushal 24-hour hackathon",
+    "step": "Step",
+    "of": "of",
+    "jump_to_flow": "Go to this step",
+    "next": "Next Step",
+    "prev": "Previous",
+    "close": "Close Guide",
+    "flows": [
+      {
+        "title": "1. Prescription OCR Scan",
+        "description": "Upload a handwritten doctor prescription. Gemini Vision extracts medicines, dosage, and frequency into an editable review table.",
+        "path": "/prescription"
+      },
+      {
+        "title": "2. Generic Substitution & Savings",
+        "description": "Deterministic substitution matches identical active salts and ranks 70%+ cheaper PM Jan Aushadhi alternatives.",
+        "path": "/search?q=Paracetamol"
+      },
+      {
+        "title": "3. 2-Hour Pickup Hold",
+        "description": "Reserve medicines without prepayment. A live 2-hour countdown timer temporarily locks inventory at the chemist.",
+        "path": "/orders"
+      },
+      {
+        "title": "4. Citizen-Pharmacist Real-Time Chat",
+        "description": "Lightweight 3-second polling chat with quick reply chips for pickup timing and generic availability confirmation.",
+        "path": "/orders"
+      },
+      {
+        "title": "5. Chemist Invoice OCR Upload",
+        "description": "Chemist snaps wholesale bill photo to bulk-update inventory with automated DPCO price ceiling violation checks.",
+        "path": "/shop/upload-bill"
+      },
+      {
+        "title": "6. UP Syndromic Surveillance Heatmap",
+        "description": "Detect early fever outbreak spikes in Chowk and Alambagh, and broadcast stock advisories to local pharmacies.",
+        "path": "/admin/heatmap"
+      }
+    ]
+  },
+  "disclaimer": {
+    "medical": "Confirm with your doctor or pharmacist before switching."
+  },
   "footer": {
     "demo_badge": "Demo data for AI Kaushal Hackathon",
     "mission": "Bridging citizens, local chemists, and government healthcare in Uttar Pradesh.",
@@ -82,7 +183,7 @@
   },
   "common": {
     "loading": "Loading information...",
-    "coming_soon": "Placeholder Route - Feature under active development",
+    "coming_soon": "Feature under active development",
     "back_to_home": "Back to Home",
     "explore_route": "Explore Route"
   }

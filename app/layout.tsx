@@ -3,6 +3,7 @@ import "./globals.css";
 import { LanguageProvider } from "@/lib/i18n";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { DemoGuideTour } from "@/components/DemoGuideTour";
 
 export const metadata: Metadata = {
   title: "DawaaSetu (दवा सेतु) | AI Medicine & Jan Aushadhi Discovery (UP)",
@@ -22,6 +23,7 @@ export default function RootLayout({
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />
+          <DemoGuideTour />
         </LanguageProvider>
       </body>
     </html>
