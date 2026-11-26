@@ -19,6 +19,7 @@ import {
 import { SubstitutePanel } from "@/components/SubstitutePanel";
 import { CardSkeleton } from "@/components/Skeleton";
 import { EmptyState } from "@/components/EmptyState";
+import { ContextualSchemeBanner } from "@/components/ContextualSchemeBanner";
 
 interface MedicineSearchResult {
   id: string;
@@ -160,6 +161,23 @@ function SearchContent() {
             ))}
           </div>
         </div>
+
+        {/* Contextual Health Scheme Banner */}
+        {medicines.length > 0 && (
+          <div className="mb-6">
+            <ContextualSchemeBanner
+              medicineName={medicines[0]?.brandName || query}
+              salts={medicines.flatMap((m) => m.salts.map((s) => s.name))}
+              isChronic={medicines.some((m) =>
+                m.salts.some((s) =>
+                  s.category.toLowerCase().includes("diabetic") ||
+                  s.category.toLowerCase().includes("cardiac") ||
+                  s.category.toLowerCase().includes("hypertensive")
+                )
+              )}
+            />
+          </div>
+        )}
 
         {/* Results List */}
         {loading ? (

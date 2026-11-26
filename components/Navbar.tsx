@@ -7,6 +7,7 @@ import { useTranslation } from "@/lib/i18n";
 import { LanguageToggle } from "./LanguageToggle";
 import { RoleSwitcher } from "./RoleSwitcher";
 import { SavingsModal } from "./SavingsModal";
+import { SchemeNotificationBell } from "./SchemeNotificationBell";
 import {
   Activity,
   Search,
@@ -129,6 +130,7 @@ export function Navbar() {
                 <span>₹ {lifetimeSavings.toLocaleString("en-IN")} saved</span>
               </button>
             )}
+            <SchemeNotificationBell />
             <RoleSwitcher />
             <LanguageToggle />
           </div>
@@ -145,6 +147,7 @@ export function Navbar() {
                 <span>₹{lifetimeSavings}</span>
               </button>
             )}
+            <SchemeNotificationBell />
             <LanguageToggle />
             <button
               type="button"

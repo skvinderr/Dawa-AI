@@ -9,6 +9,7 @@ import {
   UploadCloud,
   FileText,
   ShieldCheck,
+  ShieldAlert,
   Percent,
   MapPin,
   Sparkles,
@@ -78,6 +79,14 @@ export default function LandingPage() {
             >
               <span>Choose Your Portal / Sign In</span>
               <ArrowRight className="w-5 h-5" />
+            </Link>
+
+            <Link
+              href="/schemes"
+              className="px-6 py-4 rounded-2xl bg-amber-400 hover:bg-amber-300 text-slate-900 font-extrabold text-sm sm:text-base shadow-md transition-all inline-flex items-center gap-2"
+            >
+              <ShieldAlert className="w-5 h-5 text-slate-900" />
+              <span>{language === "hi" ? "सरकारी योजनाएं देखें" : "Check UP Govt Schemes"}</span>
             </Link>
 
             <Link

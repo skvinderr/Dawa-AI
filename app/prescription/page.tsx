@@ -32,6 +32,7 @@ import {
 import { CardSkeleton } from "@/components/Skeleton";
 import { EmptyState } from "@/components/EmptyState";
 import { SubstitutePanel } from "@/components/SubstitutePanel";
+import { ContextualSchemeBanner } from "@/components/ContextualSchemeBanner";
 
 interface ExtractedMedicineItem {
   id: string;
@@ -456,6 +457,16 @@ export default function PrescriptionUploadPage() {
 
         {hasScanned && (
           <div className="space-y-8 animate-in fade-in duration-300">
+            {/* Contextual Health Scheme Banner */}
+            <ContextualSchemeBanner
+              medicineName={extractedMedicines[0]?.name || extractedMedicines[0]?.probable_brand}
+              salts={extractedMedicines.map((m) => m.salt)}
+              isChronic={extractedMedicines.some((m) => {
+                const s = m.salt.toLowerCase();
+                return s.includes("metformin") || s.includes("telmisartan") || s.includes("amlodipine");
+              })}
+            />
+
             {/* Header with Doctor Summary & Basket Button */}
             <div className="bg-white rounded-3xl p-6 border border-health-100 shadow-soft flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
               <div className="space-y-1">
