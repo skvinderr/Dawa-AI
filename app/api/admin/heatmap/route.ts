@@ -1,19 +1,40 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import {
+  computeAreaOutbreakSignals,
+  computeMedicineShortages,
+  SignalGroupKey,
+  PRIVACY_THRESHOLD,
+} from "@/lib/outbreak";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const category = searchParams.get("category")?.toLowerCase() || "all";
-    const daysParam = parseInt(searchParams.get("days") || "7", 10);
-    const days = isNaN(daysParam) ? 7 : Math.min(Math.max(daysParam, 1), 60);
+    const categoryParam = (searchParams.get("category") || "ALL").toUpperCase();
+    const validCategories: SignalGroupKey[] = [
+      "ALL",
+      "FEVER",
+      "GASTRO",
+      "RESPIRATORY",
+      "SKIN",
+      "OTHER",
+    ];
+    const selectedGroup: SignalGroupKey = validCategories.includes(
+      categoryParam as SignalGroupKey
+    )
+      ? (categoryParam as SignalGroupKey)
+      : "ALL";
 
-    const cutoffDate = new Date();
-    cutoffDate.setDate(cutoffDate.getDate() - days);
+    const daysParam = parseInt(searchParams.get("days") || "14", 10);
+    const timeframeDays = isNaN(daysParam) ? 14 : Math.min(Math.max(daysParam, 3), 14);
 
-    // Fetch search events within timeframe
+    const now = new Date();
+    const cutoffDate = new Date(now);
+    cutoffDate.setDate(cutoffDate.getDate() - 14); // Always fetch 14 days for baseline computation
+
+    // 1. Fetch SearchEvents
     const searchEvents = await db.searchEvent.findMany({
       where: {
         createdAt: {
@@ -29,169 +50,94 @@ export async function GET(request: Request) {
       },
     });
 
-    // Filter by category if specified
-    const filteredEvents = searchEvents.filter((ev) => {
-      if (category === "all") return true;
-      const q = (ev.query || "").toLowerCase();
-      const s = (ev.salt?.name || "").toLowerCase();
-      const sc = (ev.salt?.category || "").toLowerCase();
-
-      if (category === "fever" || category === "pain") {
-        return (
-          q.includes("paracetamol") ||
-          q.includes("dolo") ||
-          q.includes("crocin") ||
-          q.includes("fever") ||
-          s.includes("paracetamol") ||
-          sc.includes("analgesic")
-        );
-      }
-      if (category === "antibiotic") {
-        return (
-          q.includes("azithromycin") ||
-          q.includes("amoxicillin") ||
-          q.includes("cefixime") ||
-          sc.includes("antibiotic")
-        );
-      }
-      if (category === "ors" || category === "dehydration") {
-        return (
-          q.includes("ors") ||
-          q.includes("electral") ||
-          q.includes("hydration") ||
-          sc.includes("electrolyte")
-        );
-      }
-      if (category === "cardiac" || category === "bp") {
-        return (
-          q.includes("amlodipine") ||
-          q.includes("telmisartan") ||
-          q.includes("atorvastatin") ||
-          sc.includes("cardiac") ||
-          sc.includes("anti-hypertensive")
-        );
-      }
-      if (category === "diabetes") {
-        return (
-          q.includes("metformin") ||
-          q.includes("glimepiride") ||
-          sc.includes("anti-diabetic")
-        );
-      }
-      return true;
-    });
-
-    // Fetch all stores in Lucknow
-    const stores = await db.store.findMany({
+    // 2. Fetch completed Orders & items to incorporate fulfillment volume
+    const completedOrders = await db.order.findMany({
+      where: {
+        status: "COMPLETED",
+        createdAt: {
+          gte: cutoffDate,
+        },
+      },
       include: {
-        inventory: {
+        store: true,
+        items: {
           include: {
-            medicine: true,
+            medicine: {
+              include: {
+                salts: {
+                  include: {
+                    salt: true,
+                  },
+                },
+              },
+            },
           },
         },
       },
     });
 
-    // Group search events by area
-    const areaStatsMap: Record<
-      string,
-      {
-        area: string;
-        lat: number;
-        lng: number;
-        totalSearches: number;
-        queryCounts: Record<string, number>;
-        timestamps: Date[];
-      }
-    > = {};
+    // 3. Unify search events + completed order signals
+    const combinedSignals = [
+      ...searchEvents.map((se) => ({
+        area: se.area,
+        lat: se.lat,
+        lng: se.lng,
+        query: se.query,
+        saltName: se.salt?.name || null,
+        saltCategory: se.salt?.category || null,
+        medicineBrand: se.medicine?.brandName || null,
+        createdAt: se.createdAt,
+      })),
+      ...completedOrders.flatMap((order) =>
+        order.items.map((item) => ({
+          area: order.store.area,
+          lat: order.store.lat,
+          lng: order.store.lng,
+          query: item.medicine.brandName,
+          saltName: item.medicine.salts[0]?.salt.name || null,
+          saltCategory: item.medicine.salts[0]?.salt.category || null,
+          medicineBrand: item.medicine.brandName,
+          createdAt: order.createdAt,
+        }))
+      ),
+    ];
 
-    filteredEvents.forEach((ev) => {
-      const area = ev.area || "Lucknow Central";
-      if (!areaStatsMap[area]) {
-        areaStatsMap[area] = {
-          area,
-          lat: ev.lat,
-          lng: ev.lng,
-          totalSearches: 0,
-          queryCounts: {},
-          timestamps: [],
-        };
-      }
-      areaStatsMap[area].totalSearches += 1;
-      const queryKey = ev.medicine?.brandName || ev.salt?.name || ev.query || "General Medicine";
-      areaStatsMap[area].queryCounts[queryKey] = (areaStatsMap[area].queryCounts[queryKey] || 0) + 1;
-      areaStatsMap[area].timestamps.push(ev.createdAt);
+    // 4. Fetch all stores in Lucknow with inventory and salts
+    const stores = await db.store.findMany({
+      include: {
+        inventory: {
+          include: {
+            medicine: {
+              include: {
+                salts: {
+                  include: {
+                    salt: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     });
 
-    // Process area summary with surge & stockout metrics
-    const areas = Object.values(areaStatsMap).map((stat) => {
-      const storesInArea = stores.filter((s) => s.area.toLowerCase() === stat.area.toLowerCase());
-      const janStores = storesInArea.filter((s) => s.type === "JAN_AUSHADHI");
-      
-      // Stockout detection in area: count stores with 0 stock of essential items
-      let zeroStockCount = 0;
-      storesInArea.forEach((s) => {
-        const hasOut = s.inventory.some((inv) => inv.quantity === 0);
-        if (hasOut) zeroStockCount += 1;
-      });
-
-      // Sort top queries
-      const topQueries = Object.entries(stat.queryCounts)
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 3)
-        .map(([name, count]) => ({ name, count }));
-
-      // Chowk and Alambagh were seeded with deliberate outbreak spikes
-      const isOutbreakArea =
-        stat.area.toLowerCase().includes("chowk") ||
-        stat.area.toLowerCase().includes("alambagh") ||
-        stat.totalSearches > 45;
-
-      const baselineNormal = Math.max(12, Math.floor(stat.totalSearches * 0.45));
-      const surgePercent = Math.round(((stat.totalSearches - baselineNormal) / baselineNormal) * 100);
-
-      const riskLevel =
-        surgePercent > 80
-          ? "CRITICAL_SURGE"
-          : surgePercent > 35
-          ? "ELEVATED"
-          : "NORMAL";
-
-      return {
-        area: stat.area,
-        lat: stat.lat,
-        lng: stat.lng,
-        totalSearches: stat.totalSearches,
-        baselineNormal,
-        surgePercent,
-        riskLevel,
-        isOutbreakArea,
-        storesCount: storesInArea.length,
-        janAushadhiCount: janStores.length,
-        zeroStockStoresCount: zeroStockCount,
-        topQueries,
-        recommendation: isOutbreakArea
-          ? `Urgent: Deploy buffer stock of ${topQueries[0]?.name || "Paracetamol/ORS"} to local Jan Aushadhi kendras.`
-          : zeroStockCount > 1
-          ? `Replenish pharmacy stock for ${zeroStockCount} local stores.`
-          : `Supply chain optimal. Routine surveillance maintained.`,
-      };
+    // 5. Run Outbreak & Anomaly Detection Engine
+    const outbreakResult = computeAreaOutbreakSignals({
+      events: combinedSignals,
+      referenceDate: now,
+      selectedGroup,
+      timeframeDays,
     });
 
-    // Sort areas by risk and total searches
-    areas.sort((a, b) => b.totalSearches - a.totalSearches);
+    // 6. Run Medicine Shortage Detection Engine (<20% store coverage)
+    const shortages = computeMedicineShortages(stores);
 
-    // Format raw heatmap points: [lat, lng, normalized_intensity]
-    const maxSearches = Math.max(...areas.map((a) => a.totalSearches), 1);
-    const heatmapPoints = areas.map((a) => {
-      const intensity = Math.min(1.0, Math.max(0.2, a.totalSearches / maxSearches));
-      return [a.lat, a.lng, intensity] as [number, number, number];
-    });
-
-    // Store pins for map overlay
+    // 7. Store pins for map overlay
     const storePins = stores.map((s) => {
       const outOfStockItems = s.inventory.filter((inv) => inv.quantity === 0);
-      const lowStockItems = s.inventory.filter((inv) => inv.quantity > 0 && inv.quantity < 10);
+      const lowStockItems = s.inventory.filter(
+        (inv) => inv.quantity > 0 && inv.quantity < 10
+      );
       return {
         id: s.id,
         name: s.name,
@@ -208,33 +154,27 @@ export async function GET(request: Request) {
       };
     });
 
-    // High critical alerts
-    const criticalAlerts = areas
-      .filter((a) => a.riskLevel === "CRITICAL_SURGE")
-      .map((a) => ({
-        area: a.area,
-        surgePercent: a.surgePercent,
-        topMedicine: a.topQueries[0]?.name || "Fever & Antibiotics",
-        recommendation: a.recommendation,
-      }));
-
     return NextResponse.json({
       success: true,
-      timeframeDays: days,
-      selectedCategory: category,
-      totalEvents: filteredEvents.length,
+      timeframeDays,
+      selectedCategory: selectedGroup,
+      privacyThreshold: PRIVACY_THRESHOLD,
+      privacyNote:
+        "All signals are aggregated strictly at the municipal area level. Any cell or cohort with fewer than 5 events is suppressed (<5) to ensure citizen privacy.",
       citywide: {
-        totalSignals: filteredEvents.length,
-        criticalAreasCount: criticalAlerts.length,
+        totalSignals: outbreakResult.totalSignalsAnalyzed,
+        alertAreasCount: outbreakResult.alertAreasCount,
+        risingAreasCount: outbreakResult.risingAreasCount,
+        normalAreasCount:
+          outbreakResult.areas.length -
+          (outbreakResult.alertAreasCount + outbreakResult.risingAreasCount),
         totalPharmacies: stores.length,
         janAushadhiCount: stores.filter((s) => s.type === "JAN_AUSHADHI").length,
-        janAushadhiCoveragePercent: Math.round(
-          (stores.filter((s) => s.type === "JAN_AUSHADHI").length / stores.length) * 100
-        ),
+        criticalShortagesCount: shortages.length,
       },
-      criticalAlerts,
-      areas,
-      heatmapPoints,
+      areas: outbreakResult.areas,
+      heatmapPoints: outbreakResult.heatmapPoints,
+      shortages,
       stores: storePins,
     });
   } catch (error) {
@@ -242,8 +182,64 @@ export async function GET(request: Request) {
     return NextResponse.json(
       {
         success: false,
-        error: "Failed to generate shortage heatmap data",
+        error: "Failed to generate outbreak surveillance data",
       },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * POST /api/admin/heatmap
+ * Broadcast official Health Department advisory to all pharmacies in an area
+ */
+export async function POST(request: Request) {
+  try {
+    const body = await request.json();
+    const { area, signalGroup = "FEVER", customMessage } = body;
+
+    if (!area) {
+      return NextResponse.json(
+        { success: false, error: "Area is required to dispatch advisory" },
+        { status: 400 }
+      );
+    }
+
+    // Find all pharmacies in this area
+    const stores = await db.store.findMany({
+      where: {
+        area: {
+          contains: area,
+        },
+      },
+    });
+
+    const defaultMessage = `Health Dept Advisory for ${area}: Elevated demand detected for ${signalGroup.toLowerCase()}-related medicines. Please maintain buffer stock of essential antipyretics and ORS.`;
+    const finalMessage = customMessage || defaultMessage;
+
+    // Record advisory notification for each pharmacy
+    for (const store of stores) {
+      await db.message.create({
+        data: {
+          storeId: store.id,
+          senderRole: "HEALTH_DEPT",
+          text: finalMessage,
+        },
+      });
+    }
+
+    return NextResponse.json({
+      success: true,
+      area,
+      notifiedStoresCount: stores.length,
+      storeNames: stores.map((s) => s.name),
+      message: finalMessage,
+      dispatchedAt: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.error("Advisory dispatch error:", error);
+    return NextResponse.json(
+      { success: false, error: "Failed to broadcast health advisory" },
       { status: 500 }
     );
   }
